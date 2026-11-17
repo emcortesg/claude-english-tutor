@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/vocabulary.schema.json",
+  "title": "vocabulary.json",
+  "description": "Exceptions only: failed words for priority recycling. Taught words are derived from progress.json + curriculum. Written by engine.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "priority_recycling"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "priority_recycling": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "oxford_id",
+          "word",
+          "failed_in",
+          "date"
+        ],
+        "properties": {
+          "oxford_id": {
+            "type": "integer"
+          },
+          "word": {
+            "type": "string"
+          },
+          "failed_in": {
+            "$ref": "#/$defs/eventId"
+          },
+          "date": {
+            "$ref": "#/$defs/date"
+          },
+          "recycled_in": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/lessonId"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

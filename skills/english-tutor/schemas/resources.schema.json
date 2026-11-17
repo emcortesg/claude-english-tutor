@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/resources.schema.json",
+  "title": "resources.json",
+  "description": "Use of texts, recordings and prompts (max. 3 uses per learner, P08). Written by engine.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "resources"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "resource_id",
+          "kind",
+          "uses"
+        ],
+        "properties": {
+          "resource_id": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "text",
+              "audio",
+              "prompt"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "uses": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "event_id",
+                "attempt",
+                "date",
+                "item_ids"
+              ],
+              "properties": {
+                "event_id": {
+                  "$ref": "#/$defs/eventId"
+                },
+                "attempt": {
+                  "type": "integer"
+                },
+                "date": {
+                  "$ref": "#/$defs/datetime"
+                },
+                "item_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

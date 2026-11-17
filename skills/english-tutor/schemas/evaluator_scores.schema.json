@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/evaluator_scores.schema.json",
+  "title": "Evaluator scores",
+  "description": "The scoring agent gives rubric bands (Writing, Speaking) and verdicts for open items; it does NOT count items or decide pass/fail: engine.py does that (P01–P03).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "student_id",
+    "event_id",
+    "attempt",
+    "scored_at"
+  ],
+  "properties": {
+    "contract": {
+      "const": "evaluator_scores/1"
+    },
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "event_id": {
+      "$ref": "#/$defs/eventId"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "form_id": {
+      "type": "string"
+    },
+    "scored_at": {
+      "$ref": "#/$defs/datetime"
+    },
+    "item_results": {
+      "type": "array",
+      "description": "Verdict for each OPEN item (no options) whose answer is not identical to the key; engine.py mark lists them. The engine counts the totals.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item_id",
+          "correct"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "correct": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "description": "Writing and Speaking: one criteria entry per rubric row. Item dimensions are counted by the engine from the evidence (entries for them are ignored).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension",
+          "score_pct"
+        ],
+        "properties": {
+          "dimension": {
+            "$ref": "#/$defs/dimension"
+          },
+          "score_pct": {
+            "$ref": "#/$defs/pct"
+          },
+          "items_correct": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items_total": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "criteria": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "rubric_id",
+                "band",
+                "evidence_quote",
+                "justification"
+              ],
+              "properties": {
+                "rubric_id": {
+                  "type": "string",
+                  "pattern": "^RB-(LS|LW|XS|XW)-\\d{2}$"
+                },
+                "band": {
+                  "$ref": "#/$defs/band"
+                },
+                "evidence_quote": {
+                  "type": "string"
+                },
+                "justification": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "subskills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "sub_skill",
+                "correct",
+                "total"
+              ],
+              "properties": {
+                "sub_skill": {
+                  "type": "string"
+                },
+                "correct": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "total": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "score_pct"
+        ],
+        "properties": {
+          "section": {
+            "$ref": "#/$defs/section"
+          },
+          "score_pct": {
+            "$ref": "#/$defs/pct"
+          },
+          "items_correct": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items_total": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "errors_observed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "description"
+        ],
+        "properties": {
+          "section": {
+            "$ref": "#/$defs/section"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "failed_vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Oxford IDs failed (placement and exams)"
+    },
+    "reinforcement_recommendation": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

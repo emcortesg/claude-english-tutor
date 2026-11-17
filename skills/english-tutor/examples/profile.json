@@ -1,0 +1,15 @@
+{
+  "student_id": "student-0001",
+  "name": "Carlos Pérez",
+  "started_on": "2026-10-22",
+  "placement_level": "A1",
+  "start_lesson": "L001",
+  "recording_consent": {
+    "given": true,
+    "date": "2026-10-22",
+    "text_version": "v1"
+  },
+  "interests": [
+    "soccer"
+  ]
+}

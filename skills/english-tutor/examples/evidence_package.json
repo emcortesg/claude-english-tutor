@@ -1,0 +1,108 @@
+{
+  "contract": "evidence_package/1",
+  "student_id": "student-0001",
+  "event_id": "L001",
+  "event_type": "lesson_assessment",
+  "attempt": 1,
+  "form_id": "L001-A",
+  "level": "A1",
+  "lesson_id": "L001",
+  "spec_ref": "Lesson_Practice_Assessment!L001",
+  "rubric_ids": [
+    "RB-LS-01",
+    "RB-LS-02",
+    "RB-LS-03",
+    "RB-LS-04",
+    "RB-LS-05",
+    "RB-LW-01",
+    "RB-LW-02",
+    "RB-LW-03",
+    "RB-LW-04"
+  ],
+  "dimensions_to_score": [
+    "Reading",
+    "Writing",
+    "Speaking"
+  ],
+  "reading": {
+    "resource": {
+      "resource_id": "TXT-L001-R-office",
+      "kind": "text"
+    },
+    "text": "(unseen dialogue, 60–90 words, generated from Lesson_Practice_Assessment!L001)",
+    "items": [
+      {
+        "item_id": "L001-A-R1",
+        "sub_skill": "gist",
+        "question": "Where are the people?",
+        "options": [
+          "At an office",
+          "At a school",
+          "At a store"
+        ],
+        "key": "At an office",
+        "learner_answer": "At an office"
+      },
+      {
+        "item_id": "L001-A-R2",
+        "sub_skill": "detail",
+        "question": "What is the new worker's name?",
+        "key": "Mia",
+        "accepted_variants": [
+          "Her name is Mia"
+        ],
+        "learner_answer": "It's Mia"
+      },
+      {
+        "item_id": "L001-A-R3",
+        "sub_skill": "detail",
+        "question": "Where is Mia from?",
+        "options": [
+          "Canada",
+          "Mexico",
+          "Brazil"
+        ],
+        "key": "Canada",
+        "learner_answer": "Mexico"
+      },
+      {
+        "item_id": "L001-A-R4",
+        "sub_skill": "detail",
+        "question": "Who is Mr. Lee?",
+        "options": [
+          "The manager",
+          "A client",
+          "A teacher"
+        ],
+        "key": "The manager",
+        "learner_answer": "The manager"
+      },
+      {
+        "item_id": "L001-A-R5",
+        "sub_skill": "detail",
+        "question": "Mia and Sam are friends. True or false?",
+        "options": [
+          "True",
+          "False"
+        ],
+        "key": "False",
+        "learner_answer": "False"
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Write a short note (25–40 words) to a new coworker: say hello, your name and introduce a colleague.",
+    "word_range": [
+      25,
+      40
+    ],
+    "target_uses": 3,
+    "learner_text": "Hello Tom! I'm Carlos, I am the new receptionist. This is Laura. She is the manager. She is from Bogotá. Nice to meet you! See you tomorrow."
+  },
+  "speaking": {
+    "voice_session_id": "S0002",
+    "voice_report_path": "voice-sessions/S0002/report.json",
+    "target_uses": 3,
+    "channel": "voice"
+  }
+}

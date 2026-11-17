@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English conversation</title>
+<!--
+  English course — voice page (self-study). Open this file with a double click in Chrome or Edge.
+  It talks directly to Gemini Live with the learner's own free API key (kept only in this browser).
+  The tutor gives a conversation code (EC2-…) that contains the session brief. At the end the page saves
+  the report (voice-report-<session>.json) in voice-reports/ inside the learner's English course folder
+  (chosen once; Chrome/Edge), where the tutor reads it. Without that folder it downloads the file instead,
+  and the learner attaches it in Claude.
+  iPhone / iPad (Safari, iOS 16.4 or later): the page must be opened from an https address (not a file). The tutor can give a
+  link with the code after "#" (…/english-voice.html#EC2-…); at the end the learner shares or copies the report into Claude.
+  Google Drive (optional, any device): with a Drive connection (the owner's Apps Script bridge, drive-bridge.gs) the page
+  opens the newest conversation from Drive › voice-briefs and saves the report in Drive › voice-reports.
+  Audio is never stored.
+-->
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --ink:#1d1d1b; --muted:#6b6b66; --accent:#2f6fde; --ok:#1f8a4c; --bad:#c0392b; --line:#e3e3de; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  main { max-width:640px; margin:0 auto; padding:24px 16px 40px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:var(--muted); margin:0 0 20px; font-size:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px; }
+  .label { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:6px; }
+  .situation { font-size:18px; line-height:1.45; }
+  button { font:inherit; font-size:17px; border:0; border-radius:999px; padding:14px 26px; cursor:pointer; }
+  .primary { background:var(--accent); color:#fff; width:100%; }
+  .secondary { background:#ecece8; color:var(--ink); width:100%; margin-top:10px; }
+  .link { background:none; color:var(--accent); padding:6px 0; font-size:14px; }
+  button:disabled { opacity:.5; cursor:default; }
+  .row { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .status { font-size:16px; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--muted); margin-right:8px; vertical-align:middle; }
+  .dot.listen { background:var(--ok); } .dot.speak { background:var(--accent); } .dot.err { background:var(--bad); }
+  .timer { font-variant-numeric:tabular-nums; color:var(--muted); }
+  .meter { height:10px; background:#ecece8; border-radius:6px; overflow:hidden; margin-top:12px; }
+  .meter > div { height:100%; width:0; background:var(--ok); transition:width .08s; }
+  .msg { font-size:16px; line-height:1.5; margin:0 0 10px; }
+  .msg.bad { color:var(--bad); }
+  .small { font-size:14px; color:var(--muted); line-height:1.5; }
+  .hidden { display:none; }
+  input, textarea { width:100%; font:inherit; font-size:15px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+  textarea { height:90px; resize:vertical; font-family:ui-monospace,Consolas,monospace; font-size:13px; }
+  .talk { width:100%; margin-top:14px; padding:22px 26px; font-size:19px; font-weight:600; background:var(--ok); color:#fff; }
+  .talk.on { background:var(--bad); }
+  details.text { margin-top:14px; border:1px solid var(--line); border-radius:12px; padding:10px 14px; background:#fbfaf6; }
+  details.text summary { cursor:pointer; font-size:15px; color:var(--accent); }
+  details.text h3 { font-size:17px; margin:12px 0 6px; }
+  details.text p { font-size:16px; line-height:1.55; margin:0 0 8px; white-space:pre-line; }
+  .tips { font-size:14px; color:var(--muted); line-height:1.5; margin:12px 0 0; padding-left:18px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>English conversation</h1>
+  <p class="sub" id="sub">Speaking practice and assessment</p>
+  <p class="small" style="position:fixed;right:10px;bottom:6px;margin:0">voice page v42</p>
+
+  <div class="card hidden" id="keyCard">
+    <div class="label">Step 1 · Your Gemini key</div>
+    <p class="msg">Paste your free Gemini API key. It stays in this browser only. Never paste it in the chat.</p>
+    <p class="small">No key yet? Open <b>aistudio.google.com/apikey</b>, click <b>Create API key</b> and copy it.</p>
+    <input id="keyInput" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…">
+    <button class="primary" id="keyBtn" style="margin-top:12px">Save key</button>
+  </div>
+
+  <div class="card hidden" id="codeCard">
+    <div class="label">Step 2 · Your conversation</div>
+    <div id="nextBox" class="hidden">
+      <p class="msg" id="nextMsg">Your tutor saves your next conversation in your English course folder.</p>
+      <button class="primary" id="nextBtn">Open my next conversation</button>
+      <p class="small" style="margin:14px 0 6px">Or paste the code your tutor gave you in Claude:</p>
+    </div>
+    <p class="msg" id="pasteMsg">Paste the code your English tutor gave you in Claude.</p>
+    <textarea id="codeInput" autocomplete="off" spellcheck="false" placeholder="EC2-…"></textarea>
+    <button class="primary" id="codeBtn" style="margin-top:12px">Continue</button>
+    <button class="secondary" id="micBtn">Test my microphone</button>
+    <p class="small" id="dirInfo" style="margin-top:14px"></p>
+    <button class="secondary" id="dirBtn">Choose my English course folder</button>
+    <p class="small" id="driveInfo" style="margin-top:14px"></p>
+    <div id="driveBox" class="hidden">
+      <p class="small">Paste the Drive connection line (it starts with https://script.google.com/macros/s/). Never paste it in the chat.</p>
+      <input id="driveInput" type="password" autocomplete="off" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec?k=…">
+      <button class="secondary" id="driveSave">Save the Drive connection</button>
+      <button class="link" id="driveForget">Disconnect Google Drive</button>
+    </div>
+    <button class="link" id="driveBtn">Connect Google Drive</button><br>
+    <button class="link" id="forgetBtn">Change or forget my Gemini key</button>
+  </div>
+
+  <div class="card hidden" id="sitCard">
+    <div class="label">Your situation</div>
+    <div class="situation" id="situation"></div>
+    <div id="pictures" class="hidden"></div>
+    <details class="text hidden" id="textBox"><summary>Show the text (open it only if you need it)</summary><h3 id="textTitle"></h3><p id="textBody"></p></details>
+    <ul class="tips">
+      <li id="tipText" class="hidden">First the other person reads you a short text. Listen, then talk about it together. You can ask to hear it again.</li>
+      <li>Use headphones if you can.</li>
+      <li id="tipIOS" class="hidden">Keep this screen open until the end: if you switch to another app, the call stops.</li>
+      <li>The other person says hello first. When you want to speak, press <b>My turn to speak</b>. When you finish, press <b>I'm done</b>. The other person waits until you press it.</li>
+      <li id="tipTime"></li>
+    </ul>
+  </div>
+
+  <div class="card hidden" id="liveCard">
+    <div class="row">
+      <div class="status"><span class="dot" id="dot"></span><span id="statusText">Connecting…</span></div>
+      <div class="timer" id="timer">0:00</div>
+    </div>
+    <div class="meter"><div id="level"></div></div>
+    <button class="talk hidden" id="talkBtn">My turn to speak</button>
+    <p class="small hidden" id="talkHint" style="margin:8px 0 0">Tip: you can also press the space bar.</p>
+  </div>
+
+  <div class="card hidden" id="msgCard"><div class="msg" id="msg"></div></div>
+
+  <div class="card hidden" id="doneCard">
+    <div class="label">Last step</div>
+    <p class="msg" id="doneText"></p>
+    <button class="primary hidden" id="shareBtn">Share the report with Claude</button>
+    <button class="secondary" id="dlBtn">Download the report again</button>
+    <button class="secondary" id="copyBtn">Copy the report (to paste in the chat)</button>
+  </div>
+
+  <button class="primary hidden" id="startBtn">Start</button>
+  <button class="secondary hidden" id="endBtn">I have finished</button>
+</main>
+
+<script>
+var MODELS = ['gemini-3.8-live-extended-thinking', 'gemini-3.8-live'];   // best first; the second is used if the first is not available for this key
+var MODEL = MODELS[0];
+var WS_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent';
+
+var $ = function (id) { return document.getElementById(id); };
+var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);   // iPadOS reports itself as a Mac
+var TOUCH = IOS || (window.matchMedia && matchMedia('(pointer:coarse)').matches);
+/* Internal log (kept in memory only, never shown or saved): no key, no audio, no conversation text. */
+var LOG = [];
+function log(x) { LOG.push(new Date().toISOString().slice(11, 19) + ' ' + x); if (LOG.length > 200) LOG.shift(); }
+window.addEventListener('error', function (e) { log('page error: ' + e.message); });
+window.addEventListener('unhandledrejection', function (e) { log('promise error: ' + (e.reason && (e.reason.name + ' ' + e.reason.message) || e.reason)); });
+function esc(x) { return String(x).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+function show(id, on) { $(id).classList.toggle('hidden', on === false); }
+function message(text, bad) { if (bad) log('message: ' + text); show('msgCard'); $('msg').textContent = text; $('msg').classList.toggle('bad', !!bad); }
+function status(text, kind) { $('statusText').textContent = text; $('dot').className = 'dot ' + (kind || ''); }
+function store(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+/* ---------------- state ---------------- */
+var DRIVE = '', HASH_CODE = '', WANT = '', API_KEY = '', BRIEF = null, REPORT_TEXT = '', REPORT_NAME = '', DIR = null, DIR_OK = false;
+
+/* ---------------- English course folder (File System Access API, remembered in IndexedDB) ---------------- */
+function idb(mode, fn) {
+  return new Promise(function (res) {
+    try {
+      var rq = indexedDB.open('english-course', 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore('kv'); };
+      rq.onsuccess = function () { var tx = rq.result.transaction('kv', mode), r = fn(tx.objectStore('kv')); tx.oncomplete = function () { res(r && r.result); }; tx.onerror = function () { res(null); }; };
+      rq.onerror = function () { res(null); };
+    } catch (e) { res(null); }
+  });
+}
+/* Next conversation saved by the tutor: English course/voice-briefs/conversation-<session>.txt (an EC2 code).
+   The newest session without a report in voice-reports/ is opened. */
+async function findNext() {
+  if (!DIR) return null;
+  try {
+    var briefs = await DIR.getDirectoryHandle('voice-briefs'), done = {}, found = [];
+    try { var rep = await DIR.getDirectoryHandle('voice-reports'); for await (var n of rep.keys()) { var m1 = /^voice-report-(S\d+)\.json$/.exec(n); if (m1) done[m1[1]] = true; } } catch (e) {}
+    for await (var name of briefs.keys()) { var m2 = /^conversation-(S\d+)\.txt$/.exec(name); if (m2 && !done[m2[1]]) found.push(m2[1]); }
+    if (!found.length) return null;
+    found.sort(function (a, b) { return parseInt(a.slice(1), 10) - parseInt(b.slice(1), 10); });
+    var f = await (await briefs.getFileHandle('conversation-' + found[found.length - 1] + '.txt')).getFile();
+    return (await f.text()).trim();
+  } catch (e) { log('next conversation: ' + e.name); return null; }
+}
+/* ---------------- Google Drive (Apps Script bridge) ---------------- */
+function driveParts(link) {
+  try { var u = new URL(link || DRIVE), k = u.searchParams.get('k'); u.search = ''; u.hash = '';
+    return (u.origin === 'https://script.google.com' && /^\/(a\/[\w.-]+\/macros|a\/macros\/[\w.-]+|macros)\/s\/[\w-]+\/exec$/.test(u.pathname) && k) ? { base: u.toString(), k: k } : null; }
+  catch (e) { return null; }
+}
+async function driveGet(action, link, id) {
+  var p = driveParts(link); if (!p) return { ok: false, error: 'no_connection' };
+  try { var r = await fetch(p.base + '?action=' + action + (id ? '&id=' + encodeURIComponent(id) : '') + '&k=' + encodeURIComponent(p.k)); return await r.json(); }
+  catch (e) { log('drive ' + action + ': ' + (e && e.message)); return { ok: false, error: 'network' }; }
+}
+async function saveToDrive() {
+  var p = driveParts(); if (!p) return false;
+  for (var i = 0; i < 3; i++) {
+    try {   // text/plain body: no CORS preflight
+      var r = await fetch(p.base, { method: 'POST', body: JSON.stringify({ k: p.k, name: REPORT_NAME, text: REPORT_TEXT }) });
+      var j = await r.json(); if (j.ok) return true; log('drive save: ' + j.error); return false;
+    } catch (e) { log('drive save: ' + (e && e.message)); await new Promise(function (res) { setTimeout(res, 1500); }); }
+  }
+  return false;
+}
+function driveInfo() {
+  $('driveInfo').textContent = DRIVE ? 'Connected to Google Drive: your conversations open from Drive and your reports are saved there.' : '';
+  $('driveBtn').textContent = DRIVE ? 'Change the Google Drive connection' : 'Connect Google Drive';
+  show('driveForget', !!DRIVE);
+  if (DRIVE) { show('nextBox'); $('nextMsg').textContent = 'Your tutor saves your next conversation in Google Drive.'; $('pasteMsg').classList.add('hidden'); }
+}
+async function saveDrive() {
+  var m = /https:\/\/script\.google\.com\/\S+/.exec($('driveInput').value);   // the whole log line may be pasted: keep only the address
+  var v = (m ? m[0] : $('driveInput').value.trim()).replace(/[.,;)\]"']+$/, '').replace(/\/dev\?/, '/exec?');
+  if (!driveParts(v)) { message('This does not look like the Drive connection line. Copy the whole line (https://script.google.com/macros/s/…/exec?k=…).', true); return; }
+  $('driveSave').disabled = true; var r = await driveGet('ping', v); $('driveSave').disabled = false;
+  if (!r.ok) { message(r.error === 'bad_key' ? 'Google Drive did not accept this connection line. Copy it again from the script.' : 'Google Drive did not answer. Check the line and your internet connection, and try again.', true); return; }
+  DRIVE = v; store('ecDrive', v); $('driveInput').value = ''; show('driveBox', false); show('msgCard', false); driveInfo(); log('drive connected');
+  if (!BRIEF) openNext(true);
+}
+async function openNext(auto) {
+  if (DRIVE) {
+    /* a link that ends in #S0022 asks for that conversation; without it, the newest one without a report */
+    var r = WANT ? await driveGet('get', null, WANT) : await driveGet('next');
+    if (WANT && r.ok && r.code && r.session_id !== WANT) {   // an older bridge script does not know "get" and answers with the newest conversation
+      message('Conversation ' + WANT + ' is not the one Google Drive gives (' + r.session_id + '). Ask your tutor in Claude for the code and paste it below.', true); return; }
+    if (WANT && r.ok && r.code && r.done) { message('Conversation ' + WANT + ' is already finished: its report is in Google Drive. Ask your tutor in Claude for your next conversation.', true); return; }
+    if (WANT && r.ok && !r.code) { message('Conversation ' + WANT + ' is not in Google Drive yet. Wait a moment and press "Open my next conversation", or ask your tutor in Claude.', true); return; }
+    if (r.ok && r.code) { $('codeInput').value = r.code; log('code from Drive ' + r.session_id); openSession(); }
+    else if (!auto) message(r.ok ? 'There is no new conversation in Google Drive yet. Ask your tutor in Claude, or paste the code below.' : 'Google Drive did not answer (' + r.error + '). Try again, or paste the code below.', true);
+    return;
+  }
+  if (!auto && !(await askDirPermission())) { message('Allow access to your English course folder, or paste the code.', true); return; }
+  var code = await findNext();
+  if (code) { $('codeInput').value = code; openSession(); }
+  else if (!auto) message('There is no new conversation in your folder yet. Ask your tutor in Claude, or paste the code below.', true);
+}
+function dirInfo() {
+  if (!('showDirectoryPicker' in window)) { $('dirInfo').textContent = IOS ? 'At the end you will share or copy your report into the Claude chat.' : 'This browser cannot save into a folder: the report will be downloaded.'; show('dirBtn', false); return; }
+  $('dirInfo').textContent = DIR ? 'Reports are saved in your folder: ' + DIR.name + ' › voice-reports' : 'Choose your English course folder once: your reports will be saved there for your tutor.';
+  $('dirBtn').textContent = DIR ? 'Change folder' : 'Choose my English course folder';
+  show('nextBox', !!DIR || !!DRIVE); $('pasteMsg').classList.toggle('hidden', !!DIR || !!DRIVE);
+  if (DRIVE) driveInfo();
+}
+async function chooseDir() {
+  try { DIR = await window.showDirectoryPicker({ id: 'english-course', mode: 'readwrite' }); DIR_OK = true; log('folder chosen: ' + DIR.name); await idb('readwrite', function (s) { return s.put(DIR, 'dir'); }); }
+  catch (e) { log('folder picker: ' + e.name + ' ' + e.message); }
+  dirInfo(); if (DIR && DIR_OK && !BRIEF) openNext(true);
+}
+async function askDirPermission() {   // needs a click: called from Start
+  if (!DIR) return false;
+  try { var p = await DIR.queryPermission({ mode: 'readwrite' }); if (p !== 'granted') p = await DIR.requestPermission({ mode: 'readwrite' }); DIR_OK = p === 'granted'; }
+  catch (e) { DIR_OK = false; }
+  return DIR_OK;
+}
+async function saveToDir() {
+  if (!DIR || !DIR_OK) return false;
+  try {
+    var sub = await DIR.getDirectoryHandle('voice-reports', { create: true });
+    var fh = await sub.getFileHandle(REPORT_NAME, { create: true }), w = await fh.createWritable();
+    await w.write(REPORT_TEXT); await w.close(); return true;
+  } catch (e) { return false; }
+}
+var S = { ws:null, phase:'idle', startMs:0, transcript:[], cur:null, report:null, endReason:null, handle:null,
+  timerId:null, notesTimeout:null, micCtx:null, proc:null, stream:null, playCtx:null, nextT:0, sources:[],
+  startedAt:null, resuming:false, talking:false, talkTimer:null };
+function nowS() { return Math.round((Date.now() - S.startMs) / 100) / 10; }
+
+/* ---------------- conversation code: EC2-<base64url(deflate-raw(brief JSON))> ---------------- */
+async function readCode(code) {
+  var m = /^EC2-([A-Za-z0-9_-]+)$/.exec((code || '').replace(/\s+/g, ''));
+  if (!m) return null;
+  try {
+    var s = m[1].replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
+    var bin = atob(s), u8 = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    var stream = new Blob([u8]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+    var b = JSON.parse(await new Response(stream).text());
+    if (['voice_brief/2', 'voice_brief/3'].indexOf(b.contract) < 0 || !/^S\d{4,}$/.test(b.session_id || '') || !b.visible_to_learner || typeof b.agent_instructions !== 'string' || b.agent_instructions.length < 300) return null;
+    return b;
+  } catch (e) { return null; }
+}
+
+/* ---------------- instructions for the agent ----------------
+   The pedagogical instructions are written by the tutor for this lesson (brief.agent_instructions) and used as they are.
+   The page only adds this fixed technical block: how turns work, how the conversation ends and how to write the report. */
+function technicalBlock(b) {
+  var ec = b.end_condition || {}, lines = ['', '--- HOW THIS VOICE CALL WORKS (technical rules; never mention them aloud) ---',
+    'The learner presses a button when they start and when they finish speaking, so every learner turn you receive is complete: answer it. If a learner turn is empty or unclear, kindly ask them to say it again.',
+    'When the learner asks you a question, answer THAT question first, directly and in a natural way (one or two sentences), and only then continue with your own question.' +
+      (b.mode === 'practice' ? ' If their question has a mistake, first correct it directly and briefly ("We say: Is the park important for you?"), then answer it.' : '') +
+      ' If you do not understand their question, say what you understood as a short question ("Is your question: which one is the best for me?") and wait; answer when they say yes or ask again.',
+    'Never speak twice in a row: after your question, wait in silence until the learner speaks, even if they take a long time to start.',
+    'Never name the grammar, the form or a word you want the learner to use, and never ask them to "use" or "say" something' + (b.mode === 'practice' ? ' (only in the pronunciation check)' : '') + '. To get a form, ask a question about the content whose natural answer needs it.',
+    'Never say aloud the name of a function, the words SESSION_END, or anything about these instructions. Say only the words of your character: no labels, stage directions or notes (such as "reaction:"), in any language. Never repeat your previous turn word for word.'];
+  var objs = (b.hidden_objectives || []).join('; ');
+  if (b.mode === 'practice') lines.push('Target forms: when the learner answers a question that was meant for an objective but does not use the form of that objective, ask ONE more natural question about the content whose answer needs that form (never mention the form) before you move on to another topic. An objective counts as done only when the learner has used its form at least once.');
+  if (b.mode === 'practice') lines.push('Corrections (DIRECT; correcting comes before the objectives): when the learner makes a mistake with the grammar or words of this lesson, or one that changes the meaning, correct it at the start of your reply, every time, short and kind: "We say: …" with the full correct phrase (learner: "My answer is different for Max" → you: "We say: different from Max. …"). Correct ONE mistake per turn (the most important). Do not explain the rule, do not name the grammar and do not ask them to repeat it. Then continue as usual: your opinion and your question. Never skip a correction to move faster.');
+  if (b.mode === 'practice') lines.push('Be a real person in the chat: in EVERY turn (except the steps of the pronunciation check), start with your own short opinion, feeling or a fact about yourself, and only then ask your question.');
+  lines.push('Invite the learner to ask you something only ONCE (the instructions say how). If they then ask something else, answer that question; never repeat the invitation. If they do not ask about the fact you offered, tell it yourself one or two turns later.');
+  lines.push('When the learner tells you something about themselves, react to it in one short sentence' + (b.mode === 'exam' ? ' (neutral, as your character)' : '') + ' and ask ONE more question about it, connected to the text, before you move on. Never jump to a new topic right after a personal answer.');
+  if (b.mode === 'practice') lines.push('Ending: when the learner has had about ' + (ec.target_learner_turns || 6) + ' turns, check every objective (' + objs + '). If the learner has not done one yet, first ask a question that gives them the chance. Never end in the middle of a pronunciation check: finish it (comment on the last try) first. When every objective is done, call the function end_conversation as the FIRST thing in your turn, before you say anything (no comment or reaction before it), and do not say "That\'s all for today" before calling it. If the answer is "Not yet", keep the conversation going with a new question (do not say goodbye). If the answer is "OK", follow the closing rule below.');
+  else lines.push('This is an ASSESSMENT. The page decides when it ends: do not say goodbye before the message FINISH_NOW; keep the conversation going in role, one question per turn. Do not correct, teach or help: never repeat the learner\'s sentence in a corrected form, never give the right word, and never judge their answers ("correct", "good", "right", "well done"). React only as your character naturally would ("I see.", "Thanks.", "Oh, nice.") and ask the next question.');
+  var t = b.shared_text;
+  if (t && t.body) lines.push('The whole conversation is ONLY about the text below: its people, places and events, and the learner\'s opinions about them. If the learner talks about something else, react in one short sentence and bring the conversation back to the text.');
+  if (t && t.body) lines.push('THE TEXT OF THIS CONVERSATION (the learner hears it from you; it is also folded on their page). At the very start, say hello in one short sentence and say you are going to read a short text; then read the title and the whole text aloud WORD FOR WORD, slowly and clearly, with no comments and no questions in the middle; then ask your first question. If the learner asks to hear it again, or a part of it, read it again word for word. Never ask the learner to read it aloud. These turns do not count as learner turns. TITLE: ' + t.title + ' TEXT: ' + t.body);
+  lines.push('Text messages from the page (never mention them aloud): ONE_MINUTE_LEFT = about one minute is left: move to any objective not covered yet and get ready to finish. ' + (b.mode === 'exam' ? 'TWO_TURNS_LEFT = the learner will answer TWO more times before the end: the conversation is NOT over, so do not close and never say "That\'s all for today"; keep asking, and if an objective is missing (for example a question from the learner), ask for it now. Only FINISH_NOW ends the conversation. ' : '') + 'NOT_FINISHED = you closed too early: the learner still has turns. Say in one short sentence that you have one more question and ask it, then go on as usual. ' + 'FINISH_NOW = follow the closing rule below.');
+  lines.push('Closing rule (the goodbye is said only ONCE in the whole conversation): (1) First react in one short sentence to the learner\'s last answer (if it was a question, answer it in one short sentence)' + (b.mode === 'exam' ? ' (neutral, as your character: no praise and no correction, for example "I see.")' : ' (for example "Nice, so you are a park person!")') + ', then say in role that the conversation is finished and thank the learner, WITHOUT the word goodbye (for example "That\'s all for today. Thank you!"). Then stop and wait. (2) The learner then says goodbye: answer with ONE short goodbye ("Goodbye, see you next time!") and stop. Never say goodbye twice and never add anything after it.');
+  lines.push('PRONUNCIATION FOCUS of this lesson (for your notes; listen for it in every learner turn): ' + (b.pronunciation_focus || 'general intelligibility') + (focusWords(b).length ? ' — words: ' + focusWords(b).join(', ') + '.' : '.'));
+  lines.push('Report: when you receive the text message SESSION_END, do not speak: call the function submit_session_report, based on what you heard. The message lists the learner turns; write ONE note for EVERY turn in the list (if a turn is marked FOCUS, the note is about the focus and says exactly what you heard, in this form: ' + focusExample(b) + '). ' +
+    'Pronunciation notes are about SOUNDS only (vowels, consonants, contractions, word stress, rhythm, intonation), never about grammar or word choice. They describe what you actually heard in the learner\'s audio: the pronunciation focus when it occurs, otherwise the most important feature (vowels, final consonants, word stress or rhythm); write at least one note for every learner turn. Judge only HOW the learner pronounced a feature when they said it; never write a note that only says the learner used a different word ("how many" for "how much") — that is word choice, not pronunciation; a correct alternative (for example a full form instead of a contraction) is not a pronunciation error. ' +
+    'If you did a pronunciation check (the learner repeated a sentence), your notes must agree with what you told the learner. ' +
+    'In every note copy the learner\'s exact words of that turn in learner_words. The report contains only pronunciation notes: nothing about grammar, vocabulary or objectives.');
+  return lines.join('\n');
+}
+function systemInstruction(b) { return b.agent_instructions + '\n' + technicalBlock(b); }
+function tools(mode) {
+  var notes = { type: 'ARRAY', description: 'Pronunciation notes from the learner audio. Descriptive, no score.',
+    items: { type: 'OBJECT', properties: {
+      learner_words: { type: 'STRING', description: 'The exact words of the learner turn this note is about (copy them).' },
+      focus_feature: { type: 'STRING' }, achieved: { type: 'BOOLEAN' }, observation: { type: 'STRING' }, affects_intelligibility: { type: 'BOOLEAN' } },
+      required: ['learner_words', 'focus_feature', 'achieved', 'observation', 'affects_intelligibility'] } };
+  var props = { pronunciation_notes: notes }, req = ['pronunciation_notes'];   // grammar, errors and objectives: the tutor takes them from the transcript
+  var fns = [{ name: 'submit_session_report', description: 'Report on the learner after SESSION_END. Never speak when calling it.', parameters: { type: 'OBJECT', properties: props, required: req } }];
+  if (mode === 'practice') fns.push({ name: 'end_conversation', description: 'Ask the page whether the conversation can end. Call it BEFORE saying goodbye.', parameters: { type: 'OBJECT', properties: {} } });
+  return [{ functionDeclarations: fns }];
+}
+
+/* ---------------- audio ---------------- */
+function b64FromInt16(i16) {
+  var u8 = new Uint8Array(i16.buffer), s = '', CH = 0x8000;
+  for (var i = 0; i < u8.length; i += CH) s += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+  return btoa(s);
+}
+function int16FromB64(b64) {
+  var bin = atob(b64), u8 = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return new Int16Array(u8.buffer);
+}
+function to16k(f, rate) {   // simple averaging down-sampler (48 kHz or 44.1 kHz → 16 kHz)
+  if (rate === 16000) return f;
+  var r = rate / 16000, n = Math.floor(f.length / r), o = new Float32Array(n);
+  for (var i = 0; i < n; i++) { var a = Math.floor(i * r), b = Math.min(f.length, Math.floor((i + 1) * r)), sum = 0; for (var j = a; j < b; j++) sum += f[j]; o[i] = sum / Math.max(1, b - a); }
+  return o;
+}
+async function openMic(onChunk) {
+  S.stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+  if (IOS) S.micCtx = new AudioContext();   // Safari: use the device rate and convert to 16 kHz here
+  else { try { S.micCtx = new AudioContext({ sampleRate: 16000 }); } catch (e) { S.micCtx = new AudioContext(); } }
+  try { if (S.micCtx.state === 'suspended') await S.micCtx.resume(); } catch (e) {}
+  var src = S.micCtx.createMediaStreamSource(S.stream);
+  S.proc = S.micCtx.createScriptProcessor(4096, 1, 1);
+  var silent = S.micCtx.createGain(); silent.gain.value = 0;
+  S.proc.onaudioprocess = function (ev) {
+    var f = to16k(ev.inputBuffer.getChannelData(0), S.micCtx.sampleRate), i16 = new Int16Array(f.length), peak = 0;
+    for (var i = 0; i < f.length; i++) { var v = Math.max(-1, Math.min(1, f[i])); i16[i] = v < 0 ? v * 0x8000 : v * 0x7fff; peak = Math.max(peak, Math.abs(v)); }
+    $('level').style.width = Math.min(100, Math.round(peak * 140)) + '%';
+    if (onChunk) onChunk(i16, 16000);   // always sent as 16 kHz
+  };
+  src.connect(S.proc); S.proc.connect(silent); silent.connect(S.micCtx.destination);
+}
+function closeMic() {
+  try { if (S.proc) S.proc.onaudioprocess = null; } catch (e) {}
+  try { if (S.stream) S.stream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
+  try { if (S.micCtx) S.micCtx.close(); } catch (e) {}
+  S.proc = S.stream = S.micCtx = null; $('level').style.width = '0';
+}
+function playChunk(b64) {
+  makePlayCtx(); if (S.playCtx.state === 'suspended') { try { S.playCtx.resume(); } catch (e) {} }
+  var i16 = int16FromB64(b64), buf = S.playCtx.createBuffer(1, i16.length, 24000), ch = buf.getChannelData(0);
+  for (var i = 0; i < i16.length; i++) ch[i] = i16[i] / 0x8000;
+  var src = S.playCtx.createBufferSource(); src.buffer = buf; src.connect(S.playCtx.destination);
+  var t = Math.max(S.nextT, S.playCtx.currentTime + 0.03); src.start(t); S.nextT = t + buf.duration;
+  S.sources.push(src); src.onended = function () { S.sources = S.sources.filter(function (x) { return x !== src; }); if (!S.sources.length && S.phase === 'talk' && !S.talking) status('Your turn: press “My turn to speak”', 'listen'); };
+  if (!S.talking) status('The other person is speaking…', 'speak');
+}
+function makePlayCtx() {
+  if (S.playCtx) return;
+  if (IOS) S.playCtx = new AudioContext(); else { try { S.playCtx = new AudioContext({ sampleRate: 24000 }); } catch (e) { S.playCtx = new AudioContext(); } }
+  S.nextT = 0;
+}
+function unlockAudio() {   // must run inside the Start click (Safari only plays sound that a tap allowed)
+  try { if (navigator.audioSession) navigator.audioSession.type = 'play-and-record'; } catch (e) {}   // iPhone: sound even with the silent switch on
+  makePlayCtx();
+  try { S.playCtx.resume(); var b = S.playCtx.createBuffer(1, 1, 22050), s = S.playCtx.createBufferSource(); s.buffer = b; s.connect(S.playCtx.destination); s.start(0); } catch (e) {}
+}
+async function keepAwake() {   // the screen must not lock during the call
+  try { if (navigator.wakeLock && !S.wake && document.visibilityState === 'visible') { S.wake = await navigator.wakeLock.request('screen'); S.wake.addEventListener('release', function () { S.wake = null; }); } } catch (e) { log('wake lock: ' + e.name); }
+}
+function stopPlayback() { S.sources.forEach(function (s) { try { s.stop(); } catch (e) {} }); S.sources = []; if (S.playCtx) S.nextT = S.playCtx.currentTime; }
+
+/* ---------------- transcript ---------------- */
+function addText(speaker, text) {
+  if (!text) return;
+  if (!S.cur || S.cur.speaker !== speaker) { closeTurn(); S.cur = { speaker: speaker, text: '', start_s: nowS(), end_s: nowS() }; }
+  S.cur.text += text; S.cur.end_s = nowS();
+}
+function closeTurn() {
+  if (S.cur && S.cur.speaker === 'agent' && /end_conversation|submit_session_report|SESSION_END|system instruction/i.test(S.cur.text)) { log('dropped agent meta-text'); S.cur = null; return; }
+  if (S.cur && S.cur.speaker === 'learner' && /^(a+|o+|e+|ah+m*|uh+m*|um+|eh+|mm+|hmm+)?$/i.test(norm(S.cur.text))) { log('dropped filler-only learner line'); S.cur = null; return; }
+  if (S.cur && S.cur.speaker === 'agent') {   // drop stray non-Latin text (labels in other scripts) and an exact repeat of the previous agent turn
+    S.cur.text = S.cur.text.replace(/<[^>]{0,40}>|\{[^}]{0,40}\}/g, ' ');   // markers such as <no speech> or {pause}
+    S.cur.text = S.cur.text.replace(/[\u0370-\u03FF\u0400-\u04FF\u0590-\u06FF\u0900-\u0DFF\u3040-\u30FF\u3400-\u9FFF\uAC00-\uD7AF]+/g, ' ');
+    var prev = S.transcript[S.transcript.length - 1];
+    if (prev && prev.speaker === 'agent' && norm(prev.text) === norm(S.cur.text)) { log('dropped repeated agent turn'); S.cur = null; return; }
+  }
+  if (S.cur && S.cur.text.trim()) S.transcript.push({ n: S.transcript.length + 1, speaker: S.cur.speaker, text: S.cur.text.replace(/\s+/g, ' ').trim(), start_s: S.cur.start_s, end_s: Math.max(S.cur.end_s, S.cur.start_s) });
+  S.cur = null;
+}
+function learnerTurns() { return S.transcript.filter(function (t) { return t.speaker === 'learner'; }); }
+function norm(t) { return String(t || '').toLowerCase().replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+/* Transcript number of the learner turn an item refers to, matched by the learner's quoted words.
+   Items are taken in order: with identical answers ("Yes, it is.") the next matching turn is used. */
+function makeMatcher() {
+  var turns = learnerTurns(), cursor = 0;
+  return function (words) {
+    if (!turns.length) return 1;
+    var w = norm(words); if (!w) return turns[Math.min(cursor, turns.length - 1)].n;
+    var wt = w.split(' ');
+    function score(t) {
+      var tt = norm(t.text);
+      if (tt === w) return 1000; if (tt.indexOf(w) >= 0 || w.indexOf(tt) >= 0) return 500;
+      var set = tt.split(' '); return wt.filter(function (x) { return set.indexOf(x) >= 0; }).length / wt.length * 100;
+    }
+    var bestI = -1, best = -1, i;
+    for (i = cursor; i < turns.length; i++) { var s1 = score(turns[i]); if (s1 >= 500) { best = s1; bestI = i; break; } if (s1 > best) { best = s1; bestI = i; } }
+    if (best < 50) for (i = 0; i < cursor; i++) { var s2 = score(turns[i]); if (s2 > best) { best = s2; bestI = i; } }
+    if (bestI < 0) bestI = turns.length - 1;
+    cursor = Math.min(bestI + 1, turns.length - 1);
+    return turns[bestI].n;
+  };
+}
+
+/* ---------------- Gemini Live ---------------- */
+// Gemini voice by the character's gender (brief.character_gender); three clear voices each, rotated by session number
+var VOICES = { female: ['Kore', 'Aoede', 'Sulafat'], male: ['Charon', 'Achird', 'Orus'] };
+function voiceFor(b) {
+  var list = VOICES[(b && b.character_gender) || ''];
+  if (!list) return null;
+  var n = parseInt(String(b.session_id || '').slice(1), 10) || 0;
+  return list[n % list.length];
+}
+function connect() {
+  log('connecting to Gemini, model ' + MODEL + (S.handle ? ' (resume)' : ''));
+  var ws = new WebSocket(WS_URL + '?key=' + encodeURIComponent(API_KEY)); S.ws = ws;
+  ws.onopen = function () { log('socket open, sending setup');
+    var gen = { responseModalities: ['AUDIO'] }, voice = S.noVoice ? null : voiceFor(BRIEF);
+    if (voice) gen.speechConfig = { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } };
+    log('voice ' + (voice || 'default'));
+    var setup = { model: 'models/' + MODEL, generationConfig: gen,
+      systemInstruction: { parts: [{ text: systemInstruction(BRIEF) }] }, tools: tools(BRIEF.mode),
+      realtimeInputConfig: { automaticActivityDetection: { disabled: true } },   // the learner decides when their turn starts and ends
+      inputAudioTranscription: {}, outputAudioTranscription: {}, sessionResumption: S.handle ? { handle: S.handle } : {},
+      contextWindowCompression: { slidingWindow: {} } };   // long practices (up to 30 min) go beyond the plain audio-session limit
+    ws.send(JSON.stringify({ setup: setup }));
+  };
+  ws.onmessage = async function (ev) {
+    var txt = typeof ev.data === 'string' ? ev.data : await ev.data.text();
+    var m; try { m = JSON.parse(txt); } catch (e) { return; }
+    onServer(m);
+  };
+  ws.onerror = function () { log('socket error'); };
+  ws.onclose = function (ev) {
+    log('socket closed: code ' + ev.code + ' reason ' + (ev.reason || '(none)') + ' phase ' + S.phase);
+    if (S.ws !== ws) return;
+    if (S.phase === 'talk' && S.resuming) return;
+    if (S.phase === 'talk') {
+      var r = (ev.reason || '').toLowerCase();
+      if (!S.setupDone && !S.noVoice && voiceFor(BRIEF) && /voice|speech/.test(r)) { S.noVoice = true; log('voice not accepted, using the default voice'); S.ws = null; connect(); return; }
+      if (!S.setupDone && MODELS.indexOf(MODEL) < MODELS.length - 1 && /model|not found|not supported|unsupported|not available/.test(r)) {
+        MODEL = MODELS[MODELS.indexOf(MODEL) + 1]; log('model not available, trying ' + MODEL); S.ws = null; connect(); return;
+      }
+      var quota = /quota|exhaust|rate|429/.test(r), badKey = /api key|api_key|permission|unauth|invalid/.test(r);
+      if (S.handle && !quota && !badKey && ev.code !== 1008) { reconnect(); return; }
+      if (badKey) { store('ecKey', null); }
+      S.endReason = quota ? 'quota_exceeded' : 'technical_error';
+      message(quota ? 'Your free Gemini limit for today is used up. Try again tomorrow, or go back to Claude and do the conversation in text.'
+        : badKey ? 'Gemini did not accept your key. Reload the page and paste your key again.'
+        : 'The connection was lost (' + ev.code + (ev.reason ? ': ' + ev.reason : '') + ').', true);
+      finalize();
+    } else if (S.phase === 'notes') { finalize(); }
+  };
+}
+function reconnect() {
+  S.resuming = true; status('Reconnecting…');
+  try { S.ws.close(); } catch (e) {}
+  S.ws = null; setTimeout(function () { S.resuming = false; connect(); }, 300);
+}
+function send(obj) { if (S.ws && S.ws.readyState === 1) S.ws.send(JSON.stringify(obj)); }
+
+var micStarted = false;
+function onServer(m) {
+  if (m.setupComplete) { log('setup complete'); S.setupDone = true;
+    status('Connected', 'listen'); show('talkBtn'); show('talkHint');
+    if (!micStarted) {
+      micStarted = true;
+      send({ clientContent: { turns: [{ role: 'user', parts: [{ text: '(The learner has joined. Start the conversation now, in role.)' }] }], turnComplete: true } });
+    }
+    return;
+  }
+  if (m.sessionResumptionUpdate && m.sessionResumptionUpdate.resumable && m.sessionResumptionUpdate.newHandle) S.handle = m.sessionResumptionUpdate.newHandle;
+  if (m.goAway) { log('goAway'); if (S.phase === 'talk' && S.handle) reconnect(); return; }
+  if (m.toolCall) { log('tool call: ' + (m.toolCall.functionCalls || []).map(function (c) { return c.name; }).join(',')); onTools(m.toolCall.functionCalls || []); return; }
+  var sc = m.serverContent; if (!sc) return;
+  if (S.phase === 'notes') {   // the agent should only call submit_session_report now
+    if (sc.modelTurn) log('notes phase: the agent answered with ' + (sc.modelTurn.parts || []).map(function (p) { return p.inlineData ? 'audio' : p.text ? 'text' : Object.keys(p)[0]; }).join(','));
+    if (sc.turnComplete) log('notes phase: turn complete without report');
+  }
+  if (S.phase === 'talk') {
+    if (sc.inputTranscription && sc.inputTranscription.text) addText('learner', sc.inputTranscription.text);
+    if (S.windowDone) return;   // after the final goodbye nothing else is played or written
+    if (S.closingSaid && !S.windowTalked && (sc.outputTranscription || sc.modelTurn)) { log('ignored agent output before the learner\'s goodbye'); return; }   // the agent waits for the learner's goodbye
+    if (sc.outputTranscription && sc.outputTranscription.text) { addText('agent', sc.outputTranscription.text); S.lastAgentOut = Date.now(); }
+    if (sc.modelTurn && sc.modelTurn.parts) sc.modelTurn.parts.forEach(function (p) { if (p.inlineData && p.inlineData.data) { playChunk(p.inlineData.data); S.lastAgentOut = Date.now(); } });
+    if (sc.interrupted) stopPlayback();
+    if (sc.turnComplete && S.cur && S.cur.speaker === 'agent') closeTurn();
+    if (sc.turnComplete && !S.clockStart && S.lastAgentOut) S.clockStart = Date.now();   // the clock starts after the greeting
+    if (sc.turnComplete) afterAgentTurn();
+  }
+}
+function onTools(calls) {
+  var responses = [];
+  calls.forEach(function (c) {
+    var resp = { id: c.id, name: c.name, response: { result: 'ok' } }; responses.push(resp);
+    if (c.name === 'end_conversation' && S.phase === 'talk') {
+      var done = learnerTurns().length + (S.cur && S.cur.speaker === 'learner' ? 1 : 0);
+      var need = (BRIEF.end_condition || {}).target_learner_turns || 0;
+      var lastL = S.cur && S.cur.speaker === 'learner' ? S.cur : learnerTurns().pop();
+      if (done < need) {  // the page, not the model, decides when the practice is long enough
+        resp.response = { result: 'Not yet: the learner has spoken ' + done + ' of ' + need + ' turns. Continue the conversation in role; let the learner ask you questions too.' };
+      } else if (lastL && isQuestion(lastL.text) && (S.qHolds || 0) < 2) {
+        S.qHolds = (S.qHolds || 0) + 1;   // never close right after the learner's question (I1)
+        resp.response = { result: 'Not yet: the learner has just asked you a question. Answer it, then ask them ONE more question about the text. Call end_conversation again after their answer.' };
+      } else if (!S.ending) {
+        var last = S.transcript.filter(function (t) { return t.speaker === 'agent'; }).pop();
+        var closedAlready = CLOSING.test((S.cur && S.cur.speaker === 'agent' ? S.cur.text : '') || (last && last.text) || '');
+        resp.response = { result: closedAlready ? 'OK: you have already closed. Now wait in silence for the learner\'s goodbye, then answer it with ONE short goodbye.'
+          : 'OK: follow the closing rule now (say that the conversation is finished and thank the learner, without goodbye; then wait for the learner\'s goodbye and answer it once). Do NOT repeat anything you already said in this turn: if you already reacted or answered, say only the closing sentence.' };
+        beginClosing('objectives_met');
+        if (closedAlready) { S.lastAgentOut = Date.now() + 1; S.byeAt = Date.now(); afterAgentTurn(); }   // the closing line was said before the call: open the goodbye window
+      }
+    } else if (c.name === 'submit_session_report') {
+      if (S.phase === 'notes') {
+        var args = c.args || {}, miss = missingNotes(args.pronunciation_notes);
+        if (!S.report || (args.pronunciation_notes || []).length >= (S.report.pronunciation_notes || []).length) S.report = args;
+        if (miss.length && !S.notesRetried) {   // one more chance, with the exact turns that are missing
+          S.notesRetried = true; log('report incomplete: ' + miss.length + ' turns without a note');
+          resp.response = { result: 'Incomplete: there is no note for these learner turns: ' + miss.map(function (t) { return '"' + t.text + '"'; }).join(' | ') + '. Call submit_session_report again with ALL the notes (the ones you wrote and the missing ones). Do not speak.' };
+        } else S.reportDone = true;
+      }
+      else resp.response = { result: 'Not now: the conversation is still going on. Continue in role. Call this only after the message SESSION_END.' };
+    }
+  });
+  send({ toolResponse: { functionResponses: responses } });
+  if (S.reportDone && S.phase === 'notes') finalize();
+}
+function waitPlayback() { return S.playCtx ? Math.max(0, (S.nextT - S.playCtx.currentTime) * 1000) + 400 : 400; }
+
+/* ---------------- the learner's turn (push to talk) ---------------- */
+function talkStart() {
+  if (S.phase !== 'talk' || S.talking || S.tail || (S.ending && !S.window)) return;
+  if (S.window || S.closingSaid) { clearTimeout(S.windowTimer); S.windowTalked = true; S.window = true; }
+  stopPlayback();                                   // the learner may interrupt the other person
+  if (S.cur && S.cur.speaker === 'agent') closeTurn();
+  S.talking = true; send({ realtimeInput: { activityStart: {} } });
+  $('talkBtn').textContent = 'I\'m done'; $('talkBtn').classList.add('on');
+  status('Your turn: speak now…', 'listen');
+  S.talkTimer = setTimeout(talkEnd, 90000);         // safety: a turn ends after 90 s
+}
+function talkEnd() {                                 // the microphone closes at once (owner decision)
+  if (!S.talking || S.tail) return;
+  clearTimeout(S.talkTimer);
+  $('talkBtn').textContent = 'My turn to speak'; $('talkBtn').classList.remove('on');
+  endTurn();
+}
+function endTurn() {
+  S.tail = false; S.talking = false;
+  // page messages for this turn are added BEFORE the end of the learner's turn and without asking for a reply,
+  // so that Gemini answers once (to the learner turn and the message together), never twice
+  var need = (BRIEF.end_condition || {}).target_learner_turns || 0, closingNow = false;
+  if (!S.window) {
+    if (S.pendingNote) { note(S.pendingNote, false); S.pendingNote = null; }
+    if (BRIEF.mode === 'exam' && need && (S.turnsTaken || 0) + 1 >= need && !S.ending) { note('FINISH_NOW', false); closingNow = true; }
+    else if (BRIEF.mode === 'exam' && need >= 4 && (S.turnsTaken || 0) + 1 === need - 2) note('TWO_TURNS_LEFT', false);
+  }
+  send({ realtimeInput: { activityEnd: {} } });
+  $('level').style.width = '0';
+  if (S.phase === 'talk') status('The other person is thinking…', 'speak');
+  S.turnsTaken = (S.turnsTaken || 0) + 1; S.lastTalkEnd = Date.now();
+  if (S.window) { S.windowTimer = setTimeout(function () { finish(S.endReason); }, 12000); return; }   // learner said goodbye: wait for the reply
+  if (closingNow) beginClosing('turns_completed');
+}
+/* ---------------- ending: a goodbye, then a short window for the learner's goodbye ---------------- */
+function note(text, complete) { log('page message ' + text); send({ clientContent: { turns: [{ role: 'user', parts: [{ text: text }] }], turnComplete: complete !== false } }); }
+function beginClosing(reason) {
+  if (S.ending) return;
+  S.ending = true; S.endReason = reason; S.byeAt = Date.now();
+  S.endTimer = setTimeout(function () { finish(reason); }, 20000);           // safety: no goodbye within 20 s
+}
+function isQuestion(t) { t = String(t || '').trim(); return /\?\s*$/.test(t) || /^(and |so |ok,? |okay,? )?(what|which|who|whose|where|when|why|how|is|are|am|do|does|did|can|could|would|will|have|has)\b/i.test(t); }
+var CLOSING = /(that'?s|that is) (all|everything) for (today|now)|we are (finished|done)( for today)?/i;
+function afterAgentTurn() {
+  if (S.phase !== 'talk') return;
+  if (!S.ending) {   // Gemini closed on its own (without end_conversation / FINISH_NOW): treat it as the closing line
+    var last = S.transcript.filter(function (t) { return t.speaker === 'agent'; }).pop();
+    var needT = (BRIEF.end_condition || {}).target_learner_turns || 0, doneT = learnerTurns().length;
+    if (last && CLOSING.test(last.text) && needT && doneT < needT && (S.reopened || 0) < 2) {   // closed before the target turns: the page reopens it
+      S.reopened = (S.reopened || 0) + 1; log('agent closed after ' + doneT + ' of ' + needT + ' learner turns: reopened');
+      setTimeout(function () { if (S.phase === 'talk' && !S.ending) note('NOT_FINISHED: the learner has answered ' + doneT + ' of ' + needT + ' times'); }, waitPlayback());
+      return;
+    }
+    if (last && CLOSING.test(last.text) && doneT >= Math.min(3, needT || 3)) {
+      log('agent closed without asking the page'); beginClosing(BRIEF.mode === 'exam' ? 'turns_completed' : 'objectives_met'); S.byeAt = S.lastAgentOut - 1;
+    } else return;
+  }
+  if (S.window) {   // the agent answered the learner's goodbye
+    if (S.windowTalked && S.lastAgentOut > S.lastTalkEnd) { S.windowDone = true; closeTurn(); clearTimeout(S.windowTimer); setTimeout(function () { finish(S.endReason); }, waitPlayback()); }
+    return;
+  }
+  if (!(S.lastAgentOut > S.byeAt)) return;    // this turn ended before the goodbye (e.g. the tool-call turn)
+  if (S.closingSaid) return;
+  S.closingSaid = true;                         // from now on the agent waits for the learner's goodbye
+  clearTimeout(S.endTimer);
+  setTimeout(function () {
+    if (S.phase !== 'talk') return;
+    S.window = true; S.windowTalked = false;
+    status('Now say goodbye (press My turn to speak)', 'listen');
+    S.windowTimer = setTimeout(function () { finish(S.endReason); }, 12000);
+  }, waitPlayback());
+}
+function talkToggle() { if (S.talking) talkEnd(); else talkStart(); }
+
+/* ---------------- flow ---------------- */
+function maxMinutes() { return (BRIEF.end_condition || {}).max_minutes || 10; }
+async function start() { log('start; folder ' + (DIR ? 'chosen' : 'none') + '; browser ' + navigator.userAgent);
+  $('startBtn').disabled = true; show('msgCard', false);
+  unlockAudio(); keepAwake();
+  try {   // the microphone opens in the Start tap (Safari needs it); audio is only sent while the learner holds the turn
+    await openMic(function (i16, rate) {
+      if (S.phase === 'talk' && S.talking) send({ realtimeInput: { audio: { data: b64FromInt16(i16), mimeType: 'audio/pcm;rate=' + rate } } });
+    });
+  } catch (e) { micError(e); return; }
+  await askDirPermission(); log('folder permission ' + DIR_OK);
+  S.phase = 'talk'; S.startMs = Date.now(); S.startedAt = new Date().toISOString();
+  show('startBtn', false); show('liveCard'); show('endBtn');
+  S.timerId = setInterval(tick, 500);
+  connect();
+}
+function tick() {
+  var s = Math.floor((Date.now() - (S.clockStart || Date.now())) / 1000), max = maxMinutes() * 60;
+  $('timer').textContent = Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2) + ' / ' + maxMinutes() + ':00';
+  if (S.phase !== 'talk' || !S.clockStart) return;
+  if (s >= max - 60 && max >= 120 && !S.minuteSent && !S.ending) { S.minuteSent = true; if (S.talking) S.pendingNote = 'ONE_MINUTE_LEFT'; else note('ONE_MINUTE_LEFT'); }
+  if (s >= max && !S.ending) {
+    if (S.talking) { if (s >= max + 20) talkEnd(); else return; }   // let the learner finish the sentence
+    S.pendingNote = null; note('FINISH_NOW'); beginClosing('time_limit');
+  }
+  if (s >= max + 45) finish('time_limit');                          // hard safety
+}
+function micError(e) { log('mic error: ' + (e && e.name) + ' ' + (e && e.message));
+  message('The microphone is not available (' + (e && e.name || e) + '). ' + (IOS ? 'On iPhone/iPad: Settings › Apps › Safari › Microphone › Allow, then reload this page.' : 'Allow the microphone in your browser and reload this page.') + ' If it still fails, go back to Claude and do the conversation in text.', true);
+  S.endReason = 'technical_error'; finalize();
+}
+/* ---------------- pronunciation notes: one per learner turn ---------------- */
+var STOP = ['silent', 'weak', 'strong', 'stress', 'forms', 'form', 'sound', 'sounds', 'vowel', 'vowels', 'final', 'linking', 'with', 'and', 'the', 'like', 'before', 'after', 'short', 'long', 'contractions', 'consonant', 'flapped', 'intonation', 'rhythm', 'word', 'words', 'news', 'hot', 'in', 'of', 'vs'];
+function focusExample(b) {   // the example uses this lesson's own focus word, never another lesson's
+  var w = focusWords(b)[0] || 'word';
+  return '"' + w + ': as in the focus (' + (b.pronunciation_focus || 'the focus') + ')" or "' + w + ': not as in the focus — what you heard instead"';
+}
+function focusWords(b) {
+  if (Array.isArray(b.pronunciation_words) && b.pronunciation_words.length) return b.pronunciation_words.map(function (w) { return String(w).toLowerCase(); });
+  var txt = String(b.pronunciation_focus || '').replace(/\/[^\/]*\//g, ' ').replace(/-/g, '').toLowerCase();
+  var out = [];
+  (txt.match(/[a-z][a-z']{2,}/g) || []).forEach(function (w) { w = w.replace(/^'+|'+$/g, ''); if (w.length > 2 && STOP.indexOf(w) < 0 && out.indexOf(w) < 0) out.push(w); });
+  return out;
+}
+function noteTurns() {   // learner turns that need a note: everything except filler and the final goodbye
+  return learnerTurns().filter(function (t) { var w = norm(t.text).split(' ').filter(Boolean);
+    return !(w.length <= 4 && w.some(function (x) { return x === 'bye' || x === 'goodbye'; })) && !(w.length <= 1 && /^(ok|okay|yes|no)$/.test(w[0] || '')); });
+}
+function covers(note, turn) {
+  var w = norm(note.learner_words || ''), t = norm(turn.text); if (!w) return false;
+  if (t.indexOf(w) >= 0 || w.indexOf(t) >= 0) return true;
+  var a = w.split(' '), set = t.split(' '); return a.filter(function (x) { return set.indexOf(x) >= 0; }).length / a.length >= 0.6;
+}
+function missingNotes(notes) {
+  return noteTurns().filter(function (t) { return !(notes || []).some(function (n) { return covers(n, t); }); });
+}
+function turnList() {
+  var fw = focusWords(BRIEF);
+  return noteTurns().map(function (t, i) {
+    var has = fw.filter(function (w) { return norm(t.text).split(' ').indexOf(norm(w)) >= 0; });
+    return (i + 1) + ') "' + t.text + '"' + (has.length ? '  [FOCUS: ' + has.join(', ') + ']' : '');
+  }).join('\n');
+}
+function finish(reason) {
+  if (S.phase !== 'talk') return;
+  if (S.talking) { clearTimeout(S.talkTimer); S.tail = false; endTurn(); }
+  S.endReason = reason; S.phase = 'notes';
+  closeTurn(); closeMic(); stopPlayback();
+  show('endBtn', false); show('talkBtn', false); show('talkHint', false); status('Finishing…'); message('Thank you! Please wait a few seconds while your notes are written.');
+  var ask = function (n) {
+    if (S.phase !== 'notes') return;
+    log('asking for the report (' + n + ')');
+    var list = 'LEARNER TURNS (write one note for each; FOCUS turns: describe the focus exactly):\n' + turnList();
+    send({ clientContent: { turns: [{ role: 'user', parts: [{ text: (n === 1 ? 'SESSION_END\n' :
+      'SESSION_END. The conversation is over. Do not speak. Call the function submit_session_report now.\n') + list }] }], turnComplete: true } });
+  };
+  setTimeout(function () { ask(1); }, 400);
+  setTimeout(function () { ask(2); }, 12000);
+  setTimeout(function () { ask(3); }, 24000);
+  S.notesTimeout = setTimeout(function () { log('no report from the agent after 40 s'); finalize(); }, 40000);
+}
+
+function buildReport() {
+  var b = BRIEF, r = S.report || {}, endedAt = new Date().toISOString();
+  var mN = makeMatcher();
+  var report = {
+    contract: 'voice_report/1', session_id: b.session_id, student_id: b.student_id, mode: b.mode, channel: 'voice', lesson_id: b.lesson_id,
+    started_at: S.startedAt || endedAt, ended_at: endedAt, end_reason: S.endReason || 'learner_left',
+    duration_s: S.startMs ? Math.round((Date.now() - S.startMs) / 1000) : 0, audio_deleted_at: new Date().toISOString(),
+    transcript: S.transcript,
+    pronunciation_notes: (r.pronunciation_notes || []).map(function (x) { return { turn: mN(x.learner_words), focus_feature: String(x.focus_feature || ''), achieved: !!x.achieved, observation: String(x.observation || ''), affects_intelligibility: !!x.affects_intelligibility }; }),
+    target_grammar_uses: [], priority_vocabulary_used: [], errors: [], objectives_met: [],
+    learner_turns: learnerTurns().length
+  };
+  // Grammar uses, vocabulary, errors and objectives are not taken from Gemini: the tutor fills them from the transcript
+  // (practice) and the evaluator scores the transcript (exam). Every objective starts as not met.
+  report.objectives_met = (b.hidden_objectives || []).map(function (o) { return { objective: o, met: false }; });
+  return report;
+}
+function reportFile() { return new File([REPORT_TEXT], REPORT_NAME, { type: 'application/json' }); }
+function canShareFile() { try { return !!(navigator.share && navigator.canShare && navigator.canShare({ files: [reportFile()] })); } catch (e) { return false; } }
+function shareReport() {
+  navigator.share({ files: [reportFile()], title: REPORT_NAME }).then(function () { $('shareBtn').textContent = 'Shared. Now type done in Claude.'; })
+    .catch(function (e) { if (e && e.name !== 'AbortError') message('Sharing did not work. Tap Copy the report and paste it in the chat.', true); });
+}
+function download() {
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([REPORT_TEXT], { type: 'application/json' }));
+  a.download = REPORT_NAME; document.body.appendChild(a); a.click(); a.remove();
+}
+var finalized = false;
+async function finalize() {
+  if (finalized) return; finalized = true;
+  clearTimeout(S.notesTimeout); clearInterval(S.timerId);
+  closeTurn(); closeMic(); stopPlayback();
+  try { if (S.ws) S.ws.close(); } catch (e) {} S.ws = null;
+  try { if (S.playCtx) S.playCtx.close(); } catch (e) {} S.playCtx = null;
+  try { if (S.wake) S.wake.release(); } catch (e) {} S.wake = null;
+  S.phase = 'done'; show('endBtn', false); show('talkBtn', false); show('talkHint', false);
+  REPORT_TEXT = JSON.stringify(buildReport(), null, 2);
+  REPORT_NAME = 'voice-report-' + BRIEF.session_id + '.json';
+  status('Finished', '');
+  if (S.endReason !== 'technical_error' && S.endReason !== 'quota_exceeded') message('Great job!');
+  var savedDrive = await saveToDrive();
+  var savedDir = !savedDrive && await saveToDir(); log('drive ' + (DRIVE ? savedDrive : 'none') + '; ' + 'end ' + S.endReason + '; learner turns ' + learnerTurns().length + '; report notes ' + ((S.report || {}).pronunciation_notes || []).length + '; saved in folder ' + savedDir);
+  var driveFail = DRIVE && !savedDrive ? 'Google Drive did not answer, so: ' : '';
+  if (savedDrive) {
+    $('doneText').innerHTML = 'Your report is saved in Google Drive. Go back to Claude and type <b>done</b>.';
+    show('dlBtn', false);
+  } else if (savedDir) {
+    $('doneText').innerHTML = driveFail + 'Your report is saved in your folder <b>' + esc(DIR.name) + ' › voice-reports</b>. Go back to Claude and type <b>done</b>.';
+  } else if (IOS) {
+    show('shareBtn', canShareFile()); show('dlBtn', false);
+    $('copyBtn').className = canShareFile() ? 'secondary' : 'primary';
+    $('doneText').innerHTML = driveFail + 'Last step: send your report to your tutor. ' + (canShareFile() ? 'Tap <b>Share the report with Claude</b> and choose Claude, or tap <b>Copy the report</b> and paste it in the chat.' : 'Tap <b>Copy the report</b>, go back to Claude and paste it in the chat.') + ' Then type <b>done</b>.';
+  } else {
+    download();
+    $('doneText').innerHTML = driveFail + 'Your report was downloaded as <b>' + esc(REPORT_NAME) + '</b>. Go back to Claude, <b>attach that file</b> to the chat and type <b>done</b>.';
+  }
+  show('doneCard');
+}
+
+/* ---------------- microphone test ---------------- */
+async function micTest() {
+  show('liveCard'); $('timer').textContent = ''; show('msgCard', false);
+  status('Say something…');
+  try { await openMic(null); status('Microphone OK: the green bar moves when you speak.', 'listen'); setTimeout(function () { closeMic(); status('Test finished. The microphone works.', 'listen'); }, 8000); }
+  catch (e) { status('Microphone blocked: ' + (e.name || e), 'err'); message(IOS ? 'On iPhone/iPad: Settings › Apps › Safari › Microphone › Allow, then reload this page and try again.' : 'Click the lock or camera icon in the address bar, allow the microphone, and try again. Use Chrome or Edge.', true); }
+}
+
+/* ---------------- boot ---------------- */
+function askKey() { show('codeCard', false); show('keyCard'); $('keyInput').value = ''; $('keyInput').focus(); }
+function saveKey() {
+  var k = $('keyInput').value.trim();
+  k = k.replace(/^["'\s]+|["'\s]+$/g, '');
+  if (k.length < 20 || k.length > 300 || /\s/.test(k)) { message('This does not look like a Gemini key. Copy the whole key from AI Studio.', true); return; }
+  API_KEY = k; store('ecKey', k); show('msgCard', false); show('keyCard', false); show('codeCard');
+  if (HASH_CODE) openSession(); else if (DRIVE) openNext(true); else if (WANT) needDrive();
+}
+function needDrive() { message('This link opens conversation ' + WANT + ' from Google Drive. Press "Connect Google Drive" first, or paste the code from Claude below.', true); }
+async function openSession() {
+  show('msgCard', false);
+  var b = await readCode($('codeInput').value);
+  if (!b) { message('This code is not valid. Copy the whole code from Claude (it starts with EC2-).', true); return; }
+  BRIEF = b;
+  show('codeCard', false); show('liveCard', false);
+  $('sub').textContent = b.mode === 'exam' ? 'Speaking assessment' : 'Speaking practice';
+  $('situation').textContent = b.visible_to_learner.situation;
+  // picture drawn by the tutor's template (SVG); shown as an image only, so no script can run from it
+  var svgs = (Array.isArray(b.picture_svgs) ? b.picture_svgs : (b.picture_svg ? [b.picture_svg] : [])).filter(function (x) { return typeof x === 'string' && /^<svg[\s>]/.test(x); }).slice(0, 3);
+  $('pictures').innerHTML = '';
+  svgs.forEach(function (x, i) { var im = document.createElement('img'); im.alt = 'Picture ' + (i + 1); im.style.cssText = 'width:100%;height:auto;margin-top:14px;border-radius:12px';
+    im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(x); $('pictures').appendChild(im); });
+  show('pictures', svgs.length > 0);
+  var st = b.shared_text && typeof b.shared_text.body === 'string' ? b.shared_text : null;
+  $('textTitle').textContent = st ? String(st.title || '') : ''; $('textBody').textContent = st ? st.body : '';
+  $('textBox').open = false; show('textBox', !!st); show('tipText', !!st);
+  $('tipTime').textContent = 'Maximum time: ' + maxMinutes() + ' minutes.' + (b.mode === 'exam' ? ' This is an assessment: no help or corrections.' : '');
+  show('sitCard'); show('startBtn');
+}
+(function () {
+  $('keyBtn').onclick = saveKey;
+  $('keyInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') saveKey(); });
+  $('codeBtn').onclick = openSession;
+  $('micBtn').onclick = micTest;
+  $('forgetBtn').onclick = function () { store('ecKey', null); API_KEY = ''; askKey(); };
+  $('startBtn').onclick = start;
+  $('endBtn').onclick = function () { finish('learner_left'); };
+  $('talkBtn').onclick = talkToggle;
+  document.addEventListener('keydown', function (e) {
+    if (e.code !== 'Space' || e.repeat || S.phase !== 'talk' || /INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName) && document.activeElement.id !== 'talkBtn') return;
+    e.preventDefault(); talkToggle();
+  });
+  $('dlBtn').onclick = download;
+  $('shareBtn').onclick = shareReport;
+  if (TOUCH) $('talkHint').textContent = '';
+  show('tipIOS', IOS);
+  document.addEventListener('visibilitychange', function () { log('page ' + document.visibilityState); if (document.visibilityState === 'visible' && S.phase === 'talk') keepAwake(); });
+  $('dirBtn').onclick = chooseDir;
+  $('nextBtn').onclick = function () { openNext(false); };
+  $('driveBtn').onclick = function () { show('driveBox'); $('driveInput').focus(); };
+  $('driveSave').onclick = saveDrive;
+  $('driveForget').onclick = function () { DRIVE = ''; store('ecDrive', null); show('driveBox', false); driveInfo(); dirInfo(); };
+  log('page loaded; folder API ' + ('showDirectoryPicker' in window) + '; key saved ' + !!load('ecKey'));
+  idb('readonly', function (s) { return s.get('dir'); }).then(async function (d) {
+    if (d) DIR = d; dirInfo();
+    if (DIR && API_KEY && !DRIVE && !HASH_CODE) {   // if the browser still allows the folder, open the next conversation by itself
+      try { if (await DIR.queryPermission({ mode: 'readwrite' }) === 'granted') { DIR_OK = true; openNext(true); } } catch (e) {}
+    }
+  });
+  $('copyBtn').onclick = function () {
+    var ok = function () { $('copyBtn').textContent = 'Copied. Paste it in the chat.'; };
+    var old = function () { var t = document.createElement('textarea'); t.value = REPORT_TEXT; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;top:0;opacity:0'; document.body.appendChild(t); t.select(); t.setSelectionRange(0, t.value.length); try { document.execCommand('copy'); ok(); } catch (e) {} t.remove(); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(REPORT_TEXT).then(ok, old); else old();
+  };
+  API_KEY = load('ecKey') || ''; DRIVE = load('ecDrive') || ''; driveInfo();
+  var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
+  if (/^EC2-/.test(h)) { HASH_CODE = h; $('codeInput').value = h; log('code from the link'); }
+  else if (/^S\d{4,}$/.test(h)) { WANT = h; log('conversation ' + h + ' asked by the link'); }
+  if (API_KEY) { show('codeCard'); if (HASH_CODE) openSession(); else if (DRIVE) openNext(true); else if (WANT) needDrive(); } else show('keyCard');
+})();
+</script>
+</body>
+</html>

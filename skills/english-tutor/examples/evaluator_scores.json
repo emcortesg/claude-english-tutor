@@ -1,0 +1,90 @@
+{
+  "contract": "evaluator_scores/1",
+  "student_id": "student-0001",
+  "event_id": "L001",
+  "attempt": 1,
+  "form_id": "L001-A",
+  "scored_at": "2026-10-22T15:00:00-05:00",
+  "dimensions": [
+    {
+      "dimension": "Writing",
+      "score_pct": 93.75,
+      "criteria": [
+        {
+          "rubric_id": "RB-LW-01",
+          "band": 100,
+          "evidence_quote": "Hello Tom! I'm Carlos",
+          "justification": "Correct reader, purpose and length (27 words)."
+        },
+        {
+          "rubric_id": "RB-LW-02",
+          "band": 100,
+          "evidence_quote": "I'm / I am / She is",
+          "justification": "4 accurate uses (target 3)."
+        },
+        {
+          "rubric_id": "RB-LW-03",
+          "band": 75,
+          "evidence_quote": "receptionist",
+          "justification": "Entries used correctly, but a narrow range (hello, meet, name)."
+        },
+        {
+          "rubric_id": "RB-LW-04",
+          "band": 100,
+          "evidence_quote": "This is Laura. She is the manager.",
+          "justification": "Logical order: greeting, self, colleague, closing."
+        }
+      ]
+    },
+    {
+      "dimension": "Speaking",
+      "score_pct": 80,
+      "criteria": [
+        {
+          "rubric_id": "RB-LS-01",
+          "band": 100,
+          "evidence_quote": "Hello, I'm Carlos. Nice to meet you.",
+          "justification": "All three objectives met."
+        },
+        {
+          "rubric_id": "RB-LS-02",
+          "band": 100,
+          "evidence_quote": "She is Laura. She is the manager.",
+          "justification": "3 accurate uses."
+        },
+        {
+          "rubric_id": "RB-LS-03",
+          "band": 50,
+          "evidence_quote": "hello, meet",
+          "justification": "2 of 4 priority entries."
+        },
+        {
+          "rubric_id": "RB-LS-04",
+          "band": 75,
+          "evidence_quote": "turn 4 note",
+          "justification": "she's not contracted; understood throughout."
+        },
+        {
+          "rubric_id": "RB-LS-05",
+          "band": 75,
+          "evidence_quote": "turns 2 and 4",
+          "justification": "Answers well; does not ask questions back."
+        }
+      ]
+    }
+  ],
+  "item_results": [
+    {
+      "item_id": "L001-A-R2",
+      "correct": true,
+      "note": "Answered \"mia\": same word, capital letter not tested."
+    }
+  ],
+  "errors_observed": [
+    {
+      "section": "4.1",
+      "description": "Avoids contractions with he/she."
+    }
+  ],
+  "reinforcement_recommendation": "Practise asking questions back (And you?) and he’s/she’s contractions."
+}

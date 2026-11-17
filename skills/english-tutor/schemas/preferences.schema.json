@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/preferences.schema.json",
+  "title": "preferences.json",
+  "description": "Learner suggestions about HOW the class is taught (never WHAT is learned or assessed). Written by engine.py; read by the tutor at session start.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "preferences"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "preferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "category",
+          "text",
+          "source_quote",
+          "created_on",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^PR\\d{3}$"
+          },
+          "category": {
+            "enum": [
+              "activity_format",
+              "example_topics",
+              "pace",
+              "feedback_style",
+              "explanation_style",
+              "practice_balance"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 140,
+            "description": "Short instruction for the tutor, in English"
+          },
+          "source_quote": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "What the learner said"
+          },
+          "created_on": {
+            "$ref": "#/$defs/date"
+          },
+          "event_id": {
+            "$ref": "#/$defs/eventId"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "retired"
+            ]
+          },
+          "retired_on": {
+            "$ref": "#/$defs/date"
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

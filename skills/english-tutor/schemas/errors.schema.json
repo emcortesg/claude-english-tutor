@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/errors.schema.json",
+  "title": "errors.json",
+  "description": "Accumulated errors by grammar section, from formal events and from practice (engine.py practice-log). Written by engine.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "by_section"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "logged_sessions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sessionId"
+      },
+      "uniqueItems": true,
+      "description": "Practice voice sessions already added with practice-log"
+    },
+    "by_section": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^\\d\\.\\d+a?$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "count",
+          "last_seen"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "last_seen": {
+            "$ref": "#/$defs/date"
+          },
+          "examples": {
+            "type": "array",
+            "maxItems": 5,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/attempts.schema.json",
+  "title": "attempts.json",
+  "description": "Attempt history per event (P11). Written by engine.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "events"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_id",
+          "cycle",
+          "attempts"
+        ],
+        "properties": {
+          "event_id": {
+            "$ref": "#/$defs/eventId"
+          },
+          "event_type": {
+            "type": "string"
+          },
+          "cycle": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Increases by 1 each time content is repeated (P10); each cycle has up to 3 attempts"
+          },
+          "attempts": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "attempt",
+                "date",
+                "form_id",
+                "scores",
+                "global_pct",
+                "decision"
+              ],
+              "properties": {
+                "attempt": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3
+                },
+                "date": {
+                  "$ref": "#/$defs/datetime"
+                },
+                "form_id": {
+                  "type": "string"
+                },
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/resourceRef"
+                  }
+                },
+                "scores": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/$defs/pct"
+                  }
+                },
+                "section_scores": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/$defs/pct"
+                  }
+                },
+                "global_pct": {
+                  "$ref": "#/$defs/pct"
+                },
+                "passed_dimensions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/dimension"
+                  }
+                },
+                "evidence_hash": {
+                  "type": "string",
+                  "description": "Fingerprint of the evidence package: the same package cannot be scored twice"
+                },
+                "decision": {
+                  "enum": [
+                    "passed",
+                    "retest_pending",
+                    "repeat_content",
+                    "placed",
+                    "diagnosed"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

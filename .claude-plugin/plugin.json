@@ -1,0 +1,15 @@
+{
+  "name": "english-course",
+  "version": "0.17.2",
+  "description": "Free self-study English course A1–C1 for Spanish-speaking adults, with a personal tutor, placement test, listening checks, level exits and spoken practice through the learner's own Gemini key.",
+  "author": {
+    "name": "Esteban Cortés"
+  },
+  "keywords": [
+    "english",
+    "esl",
+    "tutor",
+    "self-study",
+    "cefr"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "contract": "decision/1",
+  "student_id": "student-0001",
+  "event_id": "L001",
+  "event_type": "lesson_assessment",
+  "cycle": 1,
+  "attempt": 1,
+  "global_pct": 84.58,
+  "dimension_results": [
+    {
+      "dimension": "Reading",
+      "score_pct": 80,
+      "passed": true
+    },
+    {
+      "dimension": "Writing",
+      "score_pct": 93.75,
+      "passed": true
+    },
+    {
+      "dimension": "Speaking",
+      "score_pct": 80,
+      "passed": true
+    }
+  ],
+  "decision": "passed",
+  "failed_dimensions": [],
+  "attempts_left": 2,
+  "next_event": "L002",
+  "next_lesson": "L002"
+}

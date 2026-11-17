@@ -1,0 +1,23 @@
+{
+  "student_id": "student-0001",
+  "preferences": [
+    {
+      "id": "PR001",
+      "category": "activity_format",
+      "text": "Use clickable options (AskUserQuestion) for closed items whenever possible.",
+      "source_quote": "Can you make the test more interactive? With checkboxes or lists.",
+      "created_on": "2026-10-22",
+      "event_id": "L001",
+      "status": "active"
+    },
+    {
+      "id": "PR002",
+      "category": "example_topics",
+      "text": "Use examples about technology and data work when the lesson situation allows it.",
+      "source_quote": "I'm a data engineer.",
+      "created_on": "2026-10-22",
+      "event_id": "L001",
+      "status": "active"
+    }
+  ]
+}

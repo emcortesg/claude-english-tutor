@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/evidence_package.schema.json",
+  "title": "Evidence package for the evaluator",
+  "description": "Built by the tutor with the raw evidence; the evaluator never receives tutor summaries. engine.py marks every item itself from key + learner_answer: an item with options is closed (exact match); an item without options is open (exact match, or the scoring agent verdict in evaluator_scores.item_results).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "student_id",
+    "event_id",
+    "event_type",
+    "attempt",
+    "level",
+    "spec_ref",
+    "dimensions_to_score"
+  ],
+  "properties": {
+    "contract": {
+      "const": "evidence_package/1"
+    },
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "event_id": {
+      "$ref": "#/$defs/eventId"
+    },
+    "event_type": {
+      "enum": [
+        "lesson_assessment",
+        "review_diagnostic",
+        "review_assessment",
+        "unit_listening_check",
+        "level_exit",
+        "placement_stage1",
+        "placement_stage2_probe"
+      ]
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "form_id": {
+      "type": "string"
+    },
+    "level": {
+      "$ref": "#/$defs/level"
+    },
+    "lesson_id": {
+      "$ref": "#/$defs/lessonId"
+    },
+    "spec_ref": {
+      "type": "string",
+      "description": "Curriculum sheet and row with the specification (e.g. Lesson_Practice_Assessment!L001)"
+    },
+    "rubric_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^RB-(LS|LW|XS|XW)-\\d{2}$"
+      }
+    },
+    "dimensions_to_score": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "reading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource",
+        "items"
+      ],
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/resourceRef"
+        },
+        "text": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "item_id",
+              "question",
+              "key",
+              "learner_answer"
+            ],
+            "properties": {
+              "item_id": {
+                "type": "string"
+              },
+              "section": {
+                "$ref": "#/$defs/section"
+              },
+              "sub_skill": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "key": {
+                "type": "string"
+              },
+              "accepted_variants": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "learner_answer": {
+                "type": "string"
+              },
+              "oxford_id": {
+                "type": "integer",
+                "description": "Vocabulary items (placement, exit): Oxford ID of the tested word; the engine lists the failed ones"
+              }
+            }
+          }
+        }
+      }
+    },
+    "writing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt",
+        "learner_text",
+        "word_range"
+      ],
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/resourceRef"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "word_range": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "target_uses": {
+          "type": "integer"
+        },
+        "learner_text": {
+          "type": "string"
+        }
+      }
+    },
+    "speaking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "voice_session_id",
+        "voice_report_path"
+      ],
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/resourceRef"
+        },
+        "voice_session_id": {
+          "$ref": "#/$defs/sessionId"
+        },
+        "voice_report_path": {
+          "type": "string"
+        },
+        "target_uses": {
+          "type": "integer"
+        },
+        "channel": {
+          "enum": [
+            "voice",
+            "text"
+          ],
+          "description": "Copy it from the voice report. text = no pronunciation criterion; absent = voice"
+        }
+      }
+    },
+    "listening": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "items"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/properties/reading/properties/items"
+        }
+      }
+    },
+    "grammar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "description": "Placement probes",
+      "properties": {
+        "items": {
+          "$ref": "#/properties/reading/properties/items"
+        }
+      }
+    },
+    "vocabulary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "description": "Placement probes; each item carries oxford_id",
+      "properties": {
+        "items": {
+          "$ref": "#/properties/reading/properties/items"
+        }
+      }
+    },
+    "tagged_sections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/section"
+      },
+      "description": "Sections to score separately (Review, placement)"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "student_id": "student-0001",
+  "current_lesson": "L002",
+  "current_event": "L002",
+  "updated_at": "2026-10-22T15:00:05-05:00",
+  "lessons_passed": [
+    "L001"
+  ],
+  "lessons_credited": [],
+  "checks_passed": [],
+  "checks_credited": [],
+  "exits_passed": [],
+  "exits_credited": [],
+  "pending": null,
+  "replacements": []
+}

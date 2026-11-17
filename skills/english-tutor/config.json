@@ -1,0 +1,8 @@
+{
+  "voice_page_file": "voice-page/index.html",
+  "voice_page_url": "https://english-voice-raah.netlify.app/",
+  "voice_drive_folder": "English course (voice)",
+  "storage": "learner's Claude project (references/storage.md); fallback: backup file",
+  "timezone": "America/Bogota",
+  "note": "Self-study course: no server. The voice page (voice_page_url) uses the learner's own free Gemini key; conversations travel through the learner's Google Drive folder (voice_drive_folder) when the Drive connector and the bridge script are set up, otherwise by link or code; they run in text mode when there is no key or no consent. timezone (IANA name) is the one engine.py writes dates in."
+}

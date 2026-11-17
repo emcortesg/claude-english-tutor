@@ -1,0 +1,481 @@
+Step,Event ID,Event type,Level,Unit,Title,Class/assessment minutes,Note
+1,L001,Lesson – Core,A1,A1-U01,Nice to Meet You,90,
+2,L002,Lesson – Core,A1,A1-U01,Is Lima in the North?,90,
+3,L003,Lesson – Core,A1,A1-U01,I'm Hungry and Tired,90,
+4,L004,Lesson – Application,A1,A1-U01,Numbers and Ages,60,
+5,L005,Lesson – Core,A1,A1-U01,It's Cold in Chicago,90,
+6,ULC-A1-U01,Unit listening check,A1,A1-U01,Listening check – The verb be,10,Audio pending
+7,L006,Lesson – Core,A1,A1-U02,My Friends and Me,90,
+8,L007,Lesson – Core,A1,A1-U02,This Is My Family,90,
+9,L008,Lesson – Core,A1,A1-U02,Whose Baby Is This?,90,
+10,ULC-A1-U02,Unit listening check,A1,A1-U02,Listening check – Pronouns and possessives,10,Audio pending
+11,L009,Lesson – Core,A1,A1-U03,People in the Park,90,
+12,L010,Lesson – Application,A1,A1-U03,Animals on the Farm,60,
+13,L011,Lesson – Core,A1,A1-U03,She's a Nurse,90,
+14,L012,Lesson – Core,A1,A1-U03,I Like Music,90,
+15,ULC-A1-U03,Unit listening check,A1,A1-U03,"Listening check – Plurals, articles and determiners",10,Audio pending
+16,L013,Lesson – Core,A1,A1-U04,This Shirt or That One?,90,
+17,L014,Lesson – Core,A1,A1-U04,What's in the Fridge?,90,
+18,L015,Lesson – Application,A1,A1-U04,At the Farmers' Market,60,
+19,ULC-A1-U04,Unit listening check,A1,A1-U04,Listening check – Demonstratives and basic quantifiers,10,Audio pending
+20,L400,Lesson – Review,A1,A1-U04R,Review: People and Things Around Me,60,Includes embedded listening check ULC-A1-U04R
+21,L016,Lesson – Core,A1,A1-U05,Lost and Found: A Black Bag,90,
+22,L017,Lesson – Core,A1,A1-U05,Five Stars: Writing a Review,90,
+23,L018,Lesson – Core,A1,A1-U05,Writing Product Descriptions,90,
+24,L019,Lesson – Application,A1,A1-U05,Which Apartment Is Better?,60,
+25,ULC-A1-U05,Unit listening check,A1,A1-U05,Listening check – Adjectives and word order in the noun phrase,10,Audio pending
+26,L020,Lesson – Core,A1,A1-U06,An Apartment for Rent,90,
+27,L021,Lesson – Core,A1,A1-U06,Is There a Bank Near Here?,90,
+28,L022,Lesson – Core,A1,A1-U06,She Has Long Dark Hair,90,
+29,L023,Lesson – Application,A1,A1-U06,"My Phone, My Laptop",60,
+30,ULC-A1-U06,Unit listening check,A1,A1-U06,Listening check – There is/are and have got,10,Audio pending
+31,L024,Lesson – Core,A1,A1-U07,Where Are My Keys?,90,
+32,L025,Lesson – Application,A1,A1-U07,In Front of the Museum,60,
+33,ULC-A1-U07,Unit listening check,A1,A1-U07,Listening check – Prepositions of place and time,10,Audio pending
+34,L026,Lesson – Review,A1,A1-U08,"Review: Me, My Family and Home",60,Includes embedded listening check ULC-A1-U08
+35,L027,Lesson – Core,A1,A1-U09,My Morning Routine,90,
+36,L028,Lesson – Core,A1,A1-U09,A Day at the Office,90,
+37,L029,Lesson – Core,A1,A1-U09,House Rules for Roommates,90,
+38,L030,Lesson – Core,A1,A1-U09,Do You Play Tennis?,90,
+39,L031,Lesson – Core,A1,A1-U09,How Healthy Are You?,90,
+40,L032,Lesson – Core,A1,A1-U09,The Train Leaves at 8:15,90,
+41,L033,Lesson – Application,A1,A1-U09,How Plants Grow,60,
+42,L034,Lesson – Application,A1,A1-U09,Reading a Survey Chart,60,
+43,ULC-A1-U09,Unit listening check,A1,A1-U09,Listening check – The present simple,10,Audio pending
+44,L035,Lesson – Core,A1,A1-U10,Setting Up a Meeting,90,
+45,L036,Lesson – Application,A1,A1-U10,Birthdays and Holidays,60,
+46,L037,Lesson – Core,A1,A1-U10,From Nine to Five,90,
+47,L038,Lesson – Application,A1,A1-U10,A Museum Timeline,60,
+48,ULC-A1-U10,Unit listening check,A1,A1-U10,Listening check – Prepositions of place and time,10,Audio pending
+49,L401,Lesson – Review,A1,A1-U10R,Review: My Day and My Calendar,60,Includes embedded listening check ULC-A1-U10R
+50,L039,Lesson – Core,A1,A1-U11,Creating an Online Profile,90,
+51,L040,Lesson – Core,A1,A1-U11,What Do You Study?,90,
+52,L041,Lesson – Application,A1,A1-U11,What Does This Word Mean?,60,
+53,L042,Lesson – Core,A1,A1-U11,Who Answers the Phone?,90,
+54,L043,Lesson – Application,A1,A1-U11,In a Team Meeting,60,
+55,L044,Lesson – Core,A1,A1-U11,Shopping for a Party,90,
+56,L045,Lesson – Application,A1,A1-U11,How Much Is It?,60,
+57,L046,Lesson – Application,A1,A1-U11,Spending Money Abroad,60,
+58,L047,Lesson – Application,A1,A1-U11,How Far Is It?,60,
+59,ULC-A1-U11,Unit listening check,A1,A1-U11,"Listening check – Questions, subject questions and emphatic do",10,Audio pending
+60,L048,Lesson – Core,A1,A1-U12,Problems at the Hotel,90,
+61,L049,Lesson – Core,A1,A1-U12,I Can't Find Anything!,90,
+62,ULC-A1-U12,Unit listening check,A1,A1-U12,Listening check – Negation,10,Audio pending
+63,L050,Lesson – Review,A1,A1-U13,"Review: My Week, My Questions",60,Includes embedded listening check ULC-A1-U13
+64,L051,Lesson – Core,A1,A1-U14,"Turn Left, Then Go Straight",90,
+65,L052,Lesson – Application,A1,A1-U14,Stand Up and Move!,60,
+66,L053,Lesson – Application,A1,A1-U14,A Simple Soup Recipe,60,
+67,L054,Lesson – Core,A1,A1-U14,Asking Politely at the Office,90,
+68,ULC-A1-U14,Unit listening check,A1,A1-U14,Listening check – Imperatives,10,Audio pending
+69,L055,Lesson – Core,A1,A1-U15,A Job Interview at a Summer Camp,90,
+70,L056,Lesson – Core,A1,A1-U15,Can I Have a Coffee?,90,
+71,L057,Lesson – Core,A1,A1-U15,Things You Can Do in San Diego,90,
+72,ULC-A1-U15,Unit listening check,A1,A1-U15,Listening check – Can and basic modals,10,Audio pending
+73,L058,Lesson – Core,A1,A1-U16,Watching the Game Live,90,
+74,L059,Lesson – Application,A1,A1-U16,In the Art Studio,60,
+75,L060,Lesson – Core,A1,A1-U16,A Busy Afternoon at the Library,90,
+76,L061,Lesson – Application,A1,A1-U16,Writing an Email to a Colleague,60,
+77,L062,Lesson – Core,A1,A1-U16,Studying for Exams This Week,90,
+78,L063,Lesson – Application,A1,A1-U16,Late for Work Again,60,
+79,L064,Lesson – Core,A1,A1-U16,I Think I Know the Answer,90,
+80,L065,Lesson – Application,A1,A1-U16,Choosing a Movie Tonight,60,
+81,L066,Lesson – Application,A1,A1-U16,Planning a Night Out,60,
+82,ULC-A1-U16,Unit listening check,A1,A1-U16,Listening check – The present continuous,10,Audio pending
+83,L067,Lesson – Review,A1,A1-U17,"Review: Directions, Skills and Now",60,
+84,L068,Lesson – Review,A1,A1-U17,A1 Final Review: My Life,60,Includes embedded listening check ULC-A1-U17
+85,EXIT-A1,Level exit assessment (4 skills),A1,,A1 exit assessment,80,Distinct from the final review; pass rule P07
+86,L069,Lesson – Consolidation,A2,A2-U01,This Week vs. Every Week,60,Includes embedded listening check ULC-A2-U01
+87,L070,Lesson – Core,A2,A2-U02,What a Great Party!,90,
+88,L071,Lesson – Core,A2,A2-U02,A Lazy Saturday at Home,90,
+89,L072,Lesson – Core,A2,A2-U02,Our Trip Abroad,90,
+90,L073,Lesson – Application,A2,A2-U02,Last Night's Big Game,60,
+91,L074,Lesson – Core,A2,A2-U02,Did You See the Thief?,90,
+92,L075,Lesson – Core,A2,A2-U02,A Day in a Historic City,90,
+93,L076,Lesson – Application,A2,A2-U02,Our Family History,60,
+94,L077,Lesson – Application,A2,A2-U02,A Page of History,60,
+95,L078,Lesson – Core,A2,A2-U02,The Night of the Fire,90,
+96,L079,Lesson – Application,A2,A2-U02,Telling the Story of a Novel,60,
+97,ULC-A2-U02,Unit listening check,A2,A2-U02,Listening check – The past simple,12,Audio pending
+98,L080,Lesson – Consolidation,A2,A2-U03,When and Where Did It Happen?,60,Includes embedded listening check ULC-A2-U03
+99,L402,Lesson – Review,A2,A2-U03R,"Review: Last Weekend, This Week",60,Includes embedded listening check ULC-A2-U03R
+100,L081,Lesson – Core,A2,A2-U04,Furnishing a New Apartment,90,
+101,L082,Lesson – Application,A2,A2-U04,A Tour of Our New House,60,
+102,L083,Lesson – Core,A2,A2-U04,What's on the Shopping List?,90,
+103,L084,Lesson – Application,A2,A2-U04,Following a Recipe,60,
+104,L085,Lesson – Core,A2,A2-U04,Eating Well,90,
+105,L086,Lesson – Application,A2,A2-U04,"Less Waste, Cleaner Air",60,
+106,L087,Lesson – Application,A2,A2-U04,What the Survey Says,60,
+107,ULC-A2-U04,Unit listening check,A2,A2-U04,Listening check – Countable and uncountable nouns; quantifiers,12,Audio pending
+108,L088,Lesson – Consolidation,A2,A2-U05,"A, An, The or Nothing?",60,Includes embedded listening check ULC-A2-U05
+109,L089,Lesson – Core,A2,A2-U06,Which One Is Better?,90,
+110,L090,Lesson – Application,A2,A2-U06,Big City or Small Town?,60,
+111,L091,Lesson – Core,A2,A2-U06,The World's Most Amazing Places,90,
+112,L092,Lesson – Application,A2,A2-U06,Record Breakers,60,
+113,L093,Lesson – Core,A2,A2-U06,Our Changing Climate,90,
+114,L094,Lesson – Application,A2,A2-U06,Animals in the Wild,60,
+115,ULC-A2-U06,Unit listening check,A2,A2-U06,Listening check – Comparatives and superlatives,12,Audio pending
+116,L095,Lesson – Core,A2,A2-U07,In the Exercise Class,90,
+117,L096,Lesson – Application,A2,A2-U07,Driving Safely,60,
+118,L097,Lesson – Core,A2,A2-U07,Speaking a New Language,90,
+119,L098,Lesson – Application,A2,A2-U07,What Kind of Person Are You?,60,
+120,ULC-A2-U07,Unit listening check,A2,A2-U07,Listening check – Adverbs,12,Audio pending
+121,L099,Lesson – Review,A2,A2-U08,Review Checkpoint 2,60,Includes embedded listening check ULC-A2-U08
+122,L100,Lesson – Core,A2,A2-U09,Whose Is This?,90,
+123,L101,Lesson – Core,A2,A2-U09,Did You Hurt Yourself?,90,
+124,L102,Lesson – Application,A2,A2-U09,A Do-It-Yourself Weekend,60,
+125,ULC-A2-U09,Unit listening check,A2,A2-U09,Listening check – Possessive pronouns and reflexives,12,Audio pending
+126,L103,Lesson – Core,A2,A2-U10,What Do You Have to Do at Work?,90,
+127,L104,Lesson – Core,A2,A2-U10,Rules at the Art Gallery,90,
+128,L105,Lesson – Application,A2,A2-U10,Safety First at the Factory,60,
+129,L106,Lesson – Core,A2,A2-U10,At the Doctor's,90,
+130,L107,Lesson – Application,A2,A2-U10,Business Etiquette Abroad,60,
+131,L108,Lesson – Core,A2,A2-U10,At the Restaurant,90,
+132,L109,Lesson – Application,A2,A2-U10,At the Hotel Front Desk,60,
+133,ULC-A2-U10,Unit listening check,A2,A2-U10,"Listening check – Modal verbs of obligation, permission and advice",12,Audio pending
+134,L110,Lesson – Core,A2,A2-U11,A Weekend in the Countryside,90,
+135,L111,Lesson – Application,A2,A2-U11,Preparing a Short Talk,60,
+136,L112,Lesson – Core,A2,A2-U11,Life in 2050,90,
+137,L113,Lesson – Application,A2,A2-U11,"Invitations, Offers and Promises",60,
+138,L114,Lesson – Core,A2,A2-U11,A Business Trip Schedule,90,
+139,L115,Lesson – Core,A2,A2-U11,Our Company's Plans,90,
+140,ULC-A2-U11,Unit listening check,A2,A2-U11,"Listening check – Talking about the future: will, going to and the present",12,Audio pending
+141,L116,Lesson – Review,A2,A2-U12,Review Checkpoint 3,60,Includes embedded listening check ULC-A2-U12
+142,L117,Lesson – Core,A2,A2-U13,If I Pass My Exams…,90,
+143,L118,Lesson – Application,A2,A2-U13,Writing a Good Essay,60,
+144,L119,Lesson – Application,A2,A2-U13,Election Promises,60,
+145,L120,Lesson – Core,A2,A2-U13,Finding Your Way Around Town,90,
+146,L121,Lesson – Core,A2,A2-U13,Starting University,90,
+147,L122,Lesson – Application,A2,A2-U13,Planning a Research Project,60,
+148,ULC-A2-U13,Unit listening check,A2,A2-U13,Listening check – First conditional and time clauses,12,Audio pending
+149,L123,Lesson – Core,A2,A2-U14,Healthy Habits,90,
+150,L124,Lesson – Application,A2,A2-U14,Music and Free Time,60,
+151,L125,Lesson – Core,A2,A2-U14,Choosing a Career,90,
+152,L126,Lesson – Core,A2,A2-U14,Staying in Touch,90,
+153,L127,Lesson – Application,A2,A2-U14,How to Study Better,60,
+154,ULC-A2-U14,Unit listening check,A2,A2-U14,Listening check – Gerunds and infinitives: first patterns,12,Audio pending
+155,L128,Lesson – Core,A2,A2-U15,Have You Ever Seen It?,90,
+156,L129,Lesson – Core,A2,A2-U15,Breaking Science News,90,
+157,L130,Lesson – Application,A2,A2-U15,What's in the Media?,60,
+158,L131,Lesson – Core,A2,A2-U15,The Job Interview,90,
+159,ULC-A2-U15,Unit listening check,A2,A2-U15,Listening check – A first look at the present perfect,12,Audio pending
+160,L132,Lesson – Core,A2,A2-U16,Using Your Devices,90,
+161,L133,Lesson – Core,A2,A2-U16,Filling In a Form,90,
+162,ULC-A2-U16,Unit listening check,A2,A2-U16,Listening check – Phrasal verbs: first encounter,12,Audio pending
+163,L134,Lesson – Review,A2,A2-U17,Review Checkpoint 4,60,
+164,L135,Lesson – Review,A2,A2-U17,A2 Final Review,60,Includes embedded listening check ULC-A2-U17
+165,EXIT-A2,Level exit assessment (4 skills),A2,,A2 exit assessment,97,Distinct from the final review; pass rule P07
+166,L136,Lesson – Core,B1,B1-U01,Catching Up on a New Job,90,
+167,L137,Lesson – Core,B1,B1-U01,Breaking News: Storms and Disasters,90,
+168,ULC-B1-U01,Unit listening check,B1,B1-U01,Listening check – Aspect: the organising idea,15,Audio pending
+169,L138,Lesson – Core,B1,B1-U02,Places I Have Been,90,
+170,L139,Lesson – Core,B1,B1-U02,Living in My Neighborhood,90,
+171,L140,Lesson – Core,B1,B1-U02,Have You Done the Chores Yet?,90,
+172,L141,Lesson – Core,B1,B1-U02,Our Team's Progress This Quarter,90,
+173,L142,Lesson – Application,B1,B1-U02,What Has Changed This Year?,60,
+174,ULC-B1-U02,Unit listening check,B1,B1-U02,Listening check – The present perfect and its contrast with the past simple,15,Audio pending
+175,L143,Lesson – Core,B1,B1-U03,An Embarrassing Accident,90,
+176,L144,Lesson – Core,B1,B1-U03,A Business Trip That Went Wrong,90,
+177,L145,Lesson – Application,B1,B1-U03,The Wedding We Almost Missed,60,
+178,L146,Lesson – Core,B1,B1-U03,A Ghost Story,90,
+179,L147,Lesson – Application,B1,B1-U03,Rescue at Sea,60,
+180,L148,Lesson – Application,B1,B1-U03,A Battle That Changed History,60,
+181,L149,Lesson – Core,B1,B1-U03,Life in My Grandparents' Village,90,
+182,ULC-B1-U03,Unit listening check,B1,B1-U03,Listening check – The past continuous and the past perfect,15,Audio pending
+183,L150,Lesson – Core,B1,B1-U04,My School Days,90,
+184,L151,Lesson – Application,B1,B1-U04,What We Used to Wear,60,
+185,L152,Lesson – Core,B1,B1-U04,Getting Used to Life in the US,90,
+186,ULC-B1-U04,Unit listening check,B1,B1-U04,Listening check – Used to and would for past habits,15,Audio pending
+187,L153,Lesson – Review,B1,B1-U05,Review: Life Stories and Past Habits,60,Includes embedded listening check ULC-B1-U05
+188,L154,Lesson – Core,B1,B1-U06,Safety Rules in the Lab,90,
+189,L155,Lesson – Application,B1,B1-U06,If You Bake It Too Long…,60,
+190,L156,Lesson – Core,B1,B1-U06,If I Won the Lottery,90,
+191,L157,Lesson – Core,B1,B1-U06,A Polite Hotel Complaint,90,
+192,L158,Lesson – Application,B1,B1-U06,Should I Take the Job Abroad?,60,
+193,ULC-B1-U06,Unit listening check,B1,B1-U06,Listening check – Conditionals and will/would in if-clauses,15,Audio pending
+194,L159,Lesson – Core,B1,B1-U07,What Animal Could It Be?,90,
+195,L160,Lesson – Core,B1,B1-U07,Who Did It? A Crime Mystery,90,
+196,ULC-B1-U07,Unit listening check,B1,B1-U07,Listening check – Modals of deduction and speculation,15,Audio pending
+197,L161,Lesson – Core,B1,B1-U08,In Court: A News Report,90,
+198,L162,Lesson – Application,B1,B1-U08,Where Our Products Come From,60,
+199,L163,Lesson – Application,B1,B1-U08,Lost and Found,60,
+200,L164,Lesson – Core,B1,B1-U08,Your Order Has Been Shipped,90,
+201,L165,Lesson – Application,B1,B1-U08,What Can Be Done for the Planet?,60,
+202,L166,Lesson – Application,B1,B1-U08,The Museum Has Been Renovated,60,
+203,L167,Lesson – Core,B1,B1-U08,Reporting a Scientific Study,90,
+204,L168,Lesson – Application,B1,B1-U08,"Solids, Liquids and Gases",60,
+205,ULC-B1-U08,Unit listening check,B1,B1-U08,Listening check – The passive: basic uses,15,Audio pending
+206,L169,Lesson – Review,B1,B1-U09,"Review: Choices, Clues and Processes",60,Includes embedded listening check ULC-B1-U09
+207,L170,Lesson – Core,B1,B1-U10,What the Candidates Said,90,
+208,L171,Lesson – Application,B1,B1-U10,A Peaceful Community Protest,60,
+209,L172,Lesson – Core,B1,B1-U10,The Job Interview,90,
+210,L173,Lesson – Application,B1,B1-U10,A Survey on Careers,60,
+211,L174,Lesson – Core,B1,B1-U10,What the Doctor Told Me,90,
+212,ULC-B1-U10,Unit listening check,B1,B1-U10,Listening check – Reported speech: basics,15,Audio pending
+213,L175,Lesson – Consolidation,B1,B1-U11,Asking for Information Politely,60,Includes embedded listening check ULC-B1-U11
+214,L176,Lesson – Core,B1,B1-U12,Tech Words Explained,90,
+215,L177,Lesson – Application,B1,B1-U12,How We Learn a Language,60,
+216,L178,Lesson – Core,B1,B1-U12,Someone Whose Character I Admire,90,
+217,L179,Lesson – Application,B1,B1-U12,A Poet Whose Words Lasted,60,
+218,L180,Lesson – Core,B1,B1-U12,My Country in Brief,90,
+219,L181,Lesson – Application,B1,B1-U12,Which Model Should We Buy?,60,
+220,ULC-B1-U12,Unit listening check,B1,B1-U12,Listening check – Relative clauses,15,Audio pending
+221,L182,Lesson – Consolidation,B1,B1-U13,Comparing Places and Products,60,Includes embedded listening check ULC-B1-U13
+222,L183,Lesson – Review,B1,B1-U14,"Review: Reporting, Describing, Comparing",60,Includes embedded listening check ULC-B1-U14
+223,L184,Lesson – Core,B1,B1-U15,Growing Up: Who Made Us Do What,90,
+224,L185,Lesson – Application,B1,B1-U15,The Power of Advertising,60,
+225,L186,Lesson – Core,B1,B1-U15,My First Month at Work,90,
+226,L187,Lesson – Application,B1,B1-U15,Things That Drive Me Mad,60,
+227,L188,Lesson – Application,B1,B1-U15,What Makes Us Happy?,60,
+228,L189,Lesson – Core,B1,B1-U15,Shows I Recommend Watching,90,
+229,L190,Lesson – Application,B1,B1-U15,Staying Active in Your Free Time,60,
+230,ULC-B1-U15,Unit listening check,B1,B1-U15,Listening check – Gerunds and infinitives: further patterns,15,Audio pending
+231,L191,Lesson – Core,B1,B1-U16,Putting Up Shelves,90,
+232,L192,Lesson – Application,B1,B1-U16,Packing Up to Move,60,
+233,L193,Lesson – Core,B1,B1-U16,Formal or Informal? Work Emails,90,
+234,ULC-B1-U16,Unit listening check,B1,B1-U16,Listening check – Phrasal verbs,15,Audio pending
+235,L194,Lesson – Core,B1,B1-U17,"Great Game, Wasn't It?",90,Includes embedded listening check ULC-B1-U17
+236,L195,Lesson – Core,B1,B1-U18,Comparing Two Ways of Studying,90,
+237,L196,Lesson – Application,B1,B1-U18,Causes and Effects,60,
+238,L197,Lesson – Application,B1,B1-U18,Organizing an Academic Text,60,
+239,ULC-B1-U18,Unit listening check,B1,B1-U18,Listening check – Linking words and clause connection,15,Audio pending
+240,L198,Lesson – Review,B1,B1-U19,B1 Review: Telling and Linking,60,Includes embedded listening check ULC-B1-U19
+241,L403,Lesson – Review,B1,B1-U20,"B1 Final Review: Then, Now and What If",60,Includes embedded listening check ULC-B1-U20
+242,EXIT-B1,Level exit assessment (4 skills),B1,,B1 exit assessment,129,Distinct from the final review; pass rule P07
+243,L199,Lesson – Consolidation,B2,B2-U01,Catching Up After Years,60,Includes embedded listening check ULC-B2-U01
+244,L200,Lesson – Core,B2,B2-U02,At the Urgent Care Clinic,90,
+245,L201,Lesson – Application,B2,B2-U02,Recovering After Surgery,60,
+246,L202,Lesson – Application,B2,B2-U02,Feeling the Pressure Lately,60,
+247,L203,Lesson – Core,B2,B2-U02,Updating Your Professional Profile,90,
+248,L204,Lesson – Core,B2,B2-U02,Trapped on the Mountain,90,
+249,L205,Lesson – Application,B2,B2-U02,A Witness Statement,60,
+250,ULC-B2-U02,Unit listening check,B2,B2-U02,Listening check – The perfect progressive,15,Audio pending
+251,L206,Lesson – Core,B2,B2-U03,Planning a Caribbean Cruise,90,
+252,L207,Lesson – Core,B2,B2-U03,Road Trip Countdown,90,
+253,L208,Lesson – Application,B2,B2-U03,A Busy Week of Meetings,60,
+254,L209,Lesson – Core,B2,B2-U03,Project Milestones,90,
+255,L210,Lesson – Application,B2,B2-U03,Planning for Retirement,60,
+256,L211,Lesson – Application,B2,B2-U03,Climate Goals for 2050,60,
+257,L212,Lesson – Core,B2,B2-U03,Delayed at the Airport,90,
+258,L213,Lesson – Application,B2,B2-U03,Election News Briefing,60,
+259,L214,Lesson – Application,B2,B2-U03,A Baby on the Way,60,
+260,ULC-B2-U03,Unit listening check,B2,B2-U03,Listening check – Talking about the future: the full system,15,Audio pending
+261,L215,Lesson – Consolidation,B2,B2-U04,Telling a Story Well,60,Includes embedded listening check ULC-B2-U04
+262,L216,Lesson – Review,B2,B2-U05,Checkpoint 1: Time and Aspect,60,Includes embedded listening check ULC-B2-U05
+263,L217,Lesson – Consolidation,B2,B2-U06,Conditions and Promises,60,Includes embedded listening check ULC-B2-U06
+264,L218,Lesson – Core,B2,B2-U07,Disasters That Could Have Been Avoided,90,
+265,L219,Lesson – Core,B2,B2-U07,Career Paths Not Taken,90,
+266,L220,Lesson – Application,B2,B2-U07,If I Had Invested Earlier,60,
+267,L221,Lesson – Core,B2,B2-U07,Words I Wish I Hadn't Said,90,
+268,L222,Lesson – Core,B2,B2-U07,Living with Roommates,90,
+269,L223,Lesson – Application,B2,B2-U07,It's Time for Affordable Housing,60,
+270,ULC-B2-U07,Unit listening check,B2,B2-U07,Listening check – Third and mixed conditionals; wish and if only,15,Audio pending
+271,L224,Lesson – Core,B2,B2-U08,The Match We Should Have Won,90,
+272,L225,Lesson – Application,B2,B2-U08,Giving Feedback on a Report,60,
+273,L226,Lesson – Core,B2,B2-U08,Who Could Have Done It?,90,
+274,L227,Lesson – Application,B2,B2-U08,Lost Civilizations,60,
+275,L228,Lesson – Core,B2,B2-U08,What the Health Study Suggests,90,
+276,L229,Lesson – Application,B2,B2-U08,Weighing the Evidence,60,
+277,L230,Lesson – Application,B2,B2-U08,Claims with Precision,60,
+278,ULC-B2-U08,Unit listening check,B2,B2-U08,Listening check – Perfect modals and hedging,15,Audio pending
+279,L231,Lesson – Consolidation,B2,B2-U09,"Rules, Duties and Needless Worry",60,Includes embedded listening check ULC-B2-U09
+280,L232,Lesson – Review,B2,B2-U10,Checkpoint 2: Unreal Past and Hedging,60,Includes embedded listening check ULC-B2-U10
+281,L233,Lesson – Core,B2,B2-U11,Downtown Is Being Rebuilt,90,
+282,L234,Lesson – Application,B2,B2-U11,From Greenhouse to Global Market,60,
+283,L235,Lesson – Application,B2,B2-U11,How Things Are Made,60,
+284,L236,Lesson – Application,B2,B2-U11,Submitting an Official Application,60,
+285,L237,Lesson – Core,B2,B2-U11,Awards Night at the Sports Club,90,
+286,L238,Lesson – Application,B2,B2-U11,Moving Day Disasters,60,
+287,L239,Lesson – Core,B2,B2-U11,Breaking News: It Is Reported That,90,
+288,L240,Lesson – Application,B2,B2-U11,Reports from a Conflict Zone,60,
+289,L241,Lesson – Core,B2,B2-U11,How Do You Like to Be Treated?,90,
+290,ULC-B2-U11,Unit listening check,B2,B2-U11,Listening check – The passive: extended uses,15,Audio pending
+291,L242,Lesson – Core,B2,B2-U12,Getting Things Fixed at Home,90,
+292,L243,Lesson – Application,B2,B2-U12,Getting Ready for a Wedding,60,
+293,L244,Lesson – Core,B2,B2-U12,House Rules for Teenagers,90,
+294,L245,Lesson – Application,B2,B2-U12,What Makes a Good Leader,60,
+295,ULC-B2-U12,Unit listening check,B2,B2-U12,Listening check – Causatives and have/get something done,15,Audio pending
+296,L404,Lesson – Review,B2,B2-U12R,Checkpoint 3: Voice and Causation,60,Includes embedded listening check ULC-B2-U12R
+297,L246,Lesson – Core,B2,B2-U13,The Union Threatened to Strike,90,
+298,L247,Lesson – Core,B2,B2-U13,In the Courtroom,90,
+299,L248,Lesson – Core,B2,B2-U13,A Controversial Proposal,90,
+300,L249,Lesson – Application,B2,B2-U13,"Right, Wrong and Tradition",60,
+301,ULC-B2-U13,Unit listening check,B2,B2-U13,Listening check – Reporting verbs and advanced reported speech,15,Audio pending
+302,L250,Lesson – Core,B2,B2-U14,Tricks of Memory,90,
+303,L251,Lesson – Application,B2,B2-U14,Breaking Bad Habits,60,
+304,L252,Lesson – Core,B2,B2-U14,Being Chosen,90,
+305,L253,Lesson – Core,B2,B2-U14,Your Free-Time Preferences,90,
+306,L254,Lesson – Application,B2,B2-U14,What Would You Rather Watch?,60,
+307,ULC-B2-U14,Unit listening check,B2,B2-U14,Listening check – Gerunds and infinitives: meaning differences,15,Audio pending
+308,L256,Lesson – Core,B2,B2-U16,The People I Rely On,90,
+309,L257,Lesson – Core,B2,B2-U16,A Diverse City in Numbers,90,
+310,L258,Lesson – Application,B2,B2-U16,Designing a Research Study,60,
+311,L259,Lesson – Core,B2,B2-U16,Inside a Smart Device,90,
+312,L260,Lesson – Application,B2,B2-U16,"Files, Passwords and Data",60,
+313,L261,Lesson – Application,B2,B2-U16,Describing a Technical Diagram,60,
+314,ULC-B2-U16,Unit listening check,B2,B2-U16,Listening check – Relative clauses: extension,15,Audio pending
+315,L255,Lesson – Review,B2,B2-U15,Checkpoint 4: Reporting and Verb Patterns,60,Includes embedded listening check ULC-B2-U15
+316,L262,Lesson – Core,B2,B2-U17,A Noise in the Dark,90,
+317,L263,Lesson – Application,B2,B2-U17,A Terrifying Night,60,
+318,L264,Lesson – Core,B2,B2-U17,A Walking Tour of the Old City,90,
+319,L265,Lesson – Application,B2,B2-U17,At the Art Exhibition,60,
+320,L266,Lesson – Application,B2,B2-U17,Reviewing a Classic Novel,60,
+321,L267,Lesson – Core,B2,B2-U17,A Recipe Step by Step,90,
+322,L268,Lesson – Application,B2,B2-U17,The Struggle for Civil Rights,60,
+323,ULC-B2-U17,Unit listening check,B2,B2-U17,Listening check – Participle clauses,15,Audio pending
+324,L269,Lesson – Core,B2,B2-U18,City Life vs. Country Life,90,
+325,L270,Lesson – Application,B2,B2-U18,Comparing Two Studies,60,
+326,L271,Lesson – Core,B2,B2-U18,Why Prices Keep Rising,90,
+327,L272,Lesson – Application,B2,B2-U18,Describing a Sales Graph,60,
+328,L273,Lesson – Application,B2,B2-U18,When Projects Go Wrong,60,
+329,L274,Lesson – Core,B2,B2-U18,A Fundraising Appeal,90,
+330,L275,Lesson – Application,B2,B2-U18,Restructuring the Organization,60,
+331,L276,Lesson – Core,B2,B2-U18,Structuring an Argument Essay,90,
+332,L277,Lesson – Application,B2,B2-U18,Revising a Draft,60,
+333,ULC-B2-U18,Unit listening check,B2,B2-U18,Listening check – Linking words and clause connection,15,Audio pending
+334,L278,Lesson – Review,B2,B2-U19,Checkpoint 5: Linking Complex Ideas,60,Includes embedded listening check ULC-B2-U19
+335,L279,Lesson – Core,B2,B2-U20,How Species Adapt,90,
+336,L280,Lesson – Application,B2,B2-U20,Exploring the Universe,60,
+337,L281,Lesson – Application,B2,B2-U20,How Materials Behave,60,
+338,L282,Lesson – Core,B2,B2-U20,School Systems Compared,90,
+339,L283,Lesson – Application,B2,B2-U20,Caring for the Vulnerable,60,
+340,L284,Lesson – Core,B2,B2-U20,Comparing Two Online Stores,90,
+341,L285,Lesson – Application,B2,B2-U20,Bargains at the Market,60,
+342,L286,Lesson – Application,B2,B2-U20,The Company Travel Policy,60,
+343,ULC-B2-U20,Unit listening check,B2,B2-U20,"Listening check – Determiners, articles and quantification at an advanced level",15,Audio pending
+344,L287,Lesson – Consolidation,B2,B2-U21,Counting Abstract Ideas,60,Includes embedded listening check ULC-B2-U21
+345,L288,Lesson – Consolidation,B2,B2-U22,Prepositions That Go Together,60,Includes embedded listening check ULC-B2-U22
+346,L405,Lesson – Review,B2,B2-U22R,Checkpoint 6: Reference and Quantity,60,Includes embedded listening check ULC-B2-U22R
+347,L289,Lesson – Core,B2,B2-U23,A Company Profile,90,
+348,L290,Lesson – Application,B2,B2-U23,Launching a Marketing Campaign,60,
+349,L291,Lesson – Core,B2,B2-U23,Describing People Precisely,90,
+350,L292,Lesson – Application,B2,B2-U23,Reading Job Ads,60,
+351,L293,Lesson – Application,B2,B2-U23,Product Specs and Sizes,60,
+352,L294,Lesson – Core,B2,B2-U23,Goals and Resolutions,90,
+353,L295,Lesson – Application,B2,B2-U23,Key Concepts in an Essay,60,
+354,ULC-B2-U23,Unit listening check,B2,B2-U23,Listening check – Noun phrase complexity: modifiers and possessives,15,Audio pending
+355,L296,Lesson – Core,B2,B2-U24,"I Think So, I Hope Not",90,
+356,L297,Lesson – Core,B2,B2-U24,Are You Coming to the Party?,90,
+357,ULC-B2-U24,Unit listening check,B2,B2-U24,Listening check – Ellipsis and substitution,15,Audio pending
+358,L298,Lesson – Core,B2,B2-U25,I Did Tell You!,90,
+359,L299,Lesson – Application,B2,B2-U25,Rave Reviews and Bad Reviews,60,
+360,L300,Lesson – Core,B2,B2-U25,Myths About the Brain,90,
+361,ULC-B2-U25,Unit listening check,B2,B2-U25,Listening check – Emphasis and focus at B2,15,Audio pending
+362,L301,Lesson – Core,B2,B2-U26,What Really Matters Is...,90,Includes embedded listening check ULC-B2-U26
+363,L302,Lesson – Core,B2,B2-U27,Formal or Informal?,90,
+364,L303,Lesson – Application,B2,B2-U27,Where Do English Words Come From?,60,
+365,L304,Lesson – Application,B2,B2-U27,Reading Official Regulations,60,
+366,ULC-B2-U27,Unit listening check,B2,B2-U27,"Listening check – Register, spoken grammar and variation",15,Audio pending
+367,L305,Lesson – Consolidation,B2,B2-U28,Phrasal Verbs with Many Meanings,60,Includes embedded listening check ULC-B2-U28
+368,L406,Lesson – Review,B2,B2-U28R,"Checkpoint 7: Precision, Focus and Register",60,Includes embedded listening check ULC-B2-U28R
+369,L306,Lesson – Review,B2,B2-U29,B2 Final Review,60,Includes embedded listening check ULC-B2-U29
+370,EXIT-B2,Level exit assessment (4 skills),B2,,B2 exit assessment,175,Distinct from the final review; pass rule P07
+371,L307,Lesson – Core,C1,C1-U01,So Then She Glances Up,90,
+372,L308,Lesson – Application,C1,C1-U01,A Night in the Old House,60,
+373,L309,Lesson – Application,C1,C1-U01,Breaking News: Storm Hits the Coast,60,
+374,L310,Lesson – Core,C1,C1-U01,Asking Your Landlord for a Favor,90,
+375,L311,Lesson – Application,C1,C1-U01,Polite Requests by Email at Work,60,
+376,L312,Lesson – Core,C1,C1-U01,She's Being Unusually Cautious,90,
+377,L313,Lesson – Application,C1,C1-U01,Feeling the Strain,60,
+378,L314,Lesson – Core,C1,C1-U01,"A New Role, a Fresh Start",90,
+379,L315,Lesson – Application,C1,C1-U01,A Family Memoir,60,
+380,L316,Lesson – Application,C1,C1-U01,Starting Over in a New Country,60,
+381,ULC-C1-U01,Unit listening check,C1,C1-U01,Listening check – Tense and aspect: advanced and marked uses,20,Audio pending
+382,L407,Lesson – Review,C1,C1-U01R,Review Checkpoint 1: Time and Perspective,60,Includes embedded listening check ULC-C1-U01R
+383,L317,Lesson – Core,C1,C1-U02,Will the Boom Last?,90,
+384,L318,Lesson – Application,C1,C1-U02,Who Is Likely to Win?,60,
+385,L319,Lesson – Core,C1,C1-U02,Against the Odds: A Career Story,90,
+386,L320,Lesson – Application,C1,C1-U02,Glory Days on the Field,60,
+387,L321,Lesson – Application,C1,C1-U02,Grandma Would Weave for Hours,60,
+388,L322,Lesson – Core,C1,C1-U02,Reading Between the Lines of a Column,90,
+389,L323,Lesson – Application,C1,C1-U02,Reporting from a Conflict Zone,60,
+390,L324,Lesson – Core,C1,C1-U02,Rules Are Rules: Workplace Compliance,90,
+391,L325,Lesson – Application,C1,C1-U02,The Delegation Is to Arrive Monday,60,
+392,ULC-C1-U02,Unit listening check,C1,C1-U02,Listening check – Advanced modality and stance,20,Audio pending
+393,L326,Lesson – Core,C1,C1-U03,Finding Middle Ground,90,
+394,L327,Lesson – Core,C1,C1-U03,Read the Small Print,90,
+395,L328,Lesson – Application,C1,C1-U03,Should We Invest in This Startup?,60,
+396,L329,Lesson – Core,C1,C1-U03,Whether It Works Remains Unclear,90,
+397,L330,Lesson – Core,C1,C1-U03,With Costs Soaring,90,
+398,L331,Lesson – Application,C1,C1-U03,Making Cold Brew at Home,60,
+399,L332,Lesson – Application,C1,C1-U03,Keeping the Momentum,60,
+400,ULC-C1-U03,Unit listening check,C1,C1-U03,Listening check – Advanced subordination,20,Audio pending
+401,L333,Lesson – Consolidation,C1,C1-U04,Consolidation: Formal Passives,60,Includes embedded listening check ULC-C1-U04
+402,L334,Lesson – Review,C1,C1-U05,Review Checkpoint 2,60,Includes embedded listening check ULC-C1-U05
+403,L335,Lesson – Core,C1,C1-U06,Doctor's Orders,90,
+404,L336,Lesson – Application,C1,C1-U06,Public Health Guidelines,60,
+405,L337,Lesson – Application,C1,C1-U06,The Road to Recovery,60,
+406,L338,Lesson – Core,C1,C1-U06,Come What May: Faith and Ritual,90,
+407,L339,Lesson – Core,C1,C1-U06,A New School Attendance Policy,90,
+408,L340,Lesson – Application,C1,C1-U06,Proposals for Legal Reform,60,
+409,L341,Lesson – Application,C1,C1-U06,The Court Orders That…,60,
+410,ULC-C1-U06,Unit listening check,C1,C1-U06,Listening check – The subjunctive and mandative constructions,20,Audio pending
+411,L342,Lesson – Core,C1,C1-U07,It Was the Neighbor Who Called,90,
+412,L343,Lesson – Application,C1,C1-U07,Crime Headlines Under the Microscope,60,
+413,L344,Lesson – Core,C1,C1-U07,What I Need Is a Replacement,90,
+414,L345,Lesson – Core,C1,C1-U07,All You Need Is Twenty Minutes,90,
+415,L346,Lesson – Core,C1,C1-U07,What I Object To Is the Rhetoric,90,
+416,L347,Lesson – Application,C1,C1-U07,Activists Make Their Case,60,
+417,ULC-C1-U07,Unit listening check,C1,C1-U07,Listening check – Clefts and pseudo-clefts,20,Audio pending
+418,L408,Lesson – Review,C1,C1-U07R,Review Checkpoint 3: Recommending and Focusing,60,Includes embedded listening check ULC-C1-U07R
+419,L348,Lesson – Core,C1,C1-U08,Rarely Has a Debut Been So Bold,90,
+420,L349,Lesson – Application,C1,C1-U08,Not Only a Poet but Also a Painter,60,
+421,L350,Lesson – Core,C1,C1-U08,Not Until the Siege Ended,90,
+422,L351,Lesson – Application,C1,C1-U08,A Journey Gone Wrong,60,
+423,L352,Lesson – Core,C1,C1-U08,Should You Wish to Attend…,90,
+424,L353,Lesson – Application,C1,C1-U08,Had the Witness Spoken Up…,60,
+425,L354,Lesson – Core,C1,C1-U08,On the Cliff Stands a Lighthouse,90,
+426,L355,Lesson – Application,C1,C1-U08,In the Square Stands an Old Mill,60,
+427,L356,Lesson – Application,C1,C1-U08,So Hard Did He Slam the Door…,60,
+428,ULC-C1-U08,Unit listening check,C1,C1-U08,Listening check – Inversion,20,Audio pending
+429,L357,Lesson – Consolidation,C1,C1-U09,Consolidation: Third and Mixed Conditionals,60,Includes embedded listening check ULC-C1-U09
+430,L358,Lesson – Review,C1,C1-U10,Review Checkpoint 4,60,Includes embedded listening check ULC-C1-U10
+431,L359,Lesson – Core,C1,C1-U11,This We Will Not Tolerate,90,
+432,L360,Lesson – Application,C1,C1-U11,Loyalty I Value Above All,60,
+433,L361,Lesson – Core,C1,C1-U11,I Find It Absurd That…,90,
+434,L362,Lesson – Application,C1,C1-U11,It Is Shocking That Inequality Persists,60,
+435,L363,Lesson – Core,C1,C1-U11,There Remains the Question of Cost,90,
+436,ULC-C1-U11,Unit listening check,C1,C1-U11,"Listening check – Fronting, extraposition and other marked orders",20,Audio pending
+437,L364,Lesson – Core,C1,C1-U12,A State-of-the-Art Interactive Display,90,
+438,L365,Lesson – Application,C1,C1-U12,Inside the Pump Room,60,
+439,L366,Lesson – Application,C1,C1-U12,"High-Yield, Drought-Resistant Crops",60,
+440,L367,Lesson – Core,C1,C1-U12,The Effects of Exercise on Circulation,90,
+441,L368,Lesson – Application,C1,C1-U12,"Sleep, Memory and the Aging Brain",60,
+442,L369,Lesson – Core,C1,C1-U12,"Hydrogen, the Lightest Element",90,
+443,L370,Lesson – Application,C1,C1-U12,"Predators, Prey and Their Habitats",60,
+444,L371,Lesson – Application,C1,C1-U12,"Copper, a Reddish-Brown Metal",60,
+445,ULC-C1-U12,Unit listening check,C1,C1-U12,Listening check – Complex noun phrases,20,Audio pending
+446,L372,Lesson – Core,C1,C1-U13,From Merge to Merger,90,
+447,L373,Lesson – Core,C1,C1-U13,The Government's Decision to Intervene,90,
+448,L374,Lesson – Core,C1,C1-U13,Say It Plainly,90,
+449,ULC-C1-U13,Unit listening check,C1,C1-U13,Listening check – Nominalisation and grammatical metaphor,20,Audio pending
+450,L375,Lesson – Consolidation,C1,C1-U14,Consolidation: Participle Clauses,60,Includes embedded listening check ULC-C1-U14
+451,L376,Lesson – Consolidation,C1,C1-U15,Consolidation: Gerunds and Infinitives,60,Includes embedded listening check ULC-C1-U15
+452,L377,Lesson – Review,C1,C1-U16,Review Checkpoint 5,60,Includes embedded listening check ULC-C1-U16
+453,L378,Lesson – Core,C1,C1-U17,The Former and the Latter,90,
+454,L379,Lesson – Application,C1,C1-U17,Left and Right: Comparing Ideologies,60,
+455,L380,Lesson – Core,C1,C1-U17,Shall We Postpone? I'd Rather Not.,90,
+456,L381,Lesson – Core,C1,C1-U17,Commencing Phase Two,90,
+457,L382,Lesson – Core,C1,C1-U17,A Short History of the Region,90,
+458,L383,Lesson – Application,C1,C1-U17,The Rise and Fall of a Regime,60,
+459,ULC-C1-U17,Unit listening check,C1,C1-U17,Listening check – Cohesion at text level,20,Audio pending
+460,L384,Lesson – Core,C1,C1-U18,"You Know, That Buddy of Mine…",90,
+461,L385,Lesson – Core,C1,C1-U18,It Would Appear That…,90,
+462,L386,Lesson – Application,C1,C1-U18,What the Survey Data Show,60,
+463,L387,Lesson – Core,C1,C1-U18,Congress and Parliament Compared,90,
+464,L388,Lesson – Core,C1,C1-U18,"One Announcement, Three Audiences",90,
+465,L389,Lesson – Application,C1,C1-U18,"A Fundraising Appeal, Two Ways",60,
+466,ULC-C1-U18,Unit listening check,C1,C1-U18,"Listening check – Register, spoken grammar and variation",20,Audio pending
+467,L409,Lesson – Review,C1,C1-U18R,Review Checkpoint 6: Cohesion and Register,60,Includes embedded listening check ULC-C1-U18R
+468,L390,Lesson – Core,C1,C1-U19,What Do You Aspire To?,90,
+469,L391,Lesson – Core,C1,C1-U19,"Utterly Wrong, Deeply Grateful",90,
+470,L392,Lesson – Application,C1,C1-U19,"Pose a Hazard, Take Precautions",60,
+471,L393,Lesson – Core,C1,C1-U19,"The More Authentic, the Better?",90,
+472,L394,Lesson – Application,C1,C1-U19,"The Denser the City, the Higher the Cost?",60,
+473,ULC-C1-U19,Unit listening check,C1,C1-U19,Listening check – Further structures and lexicogrammar,20,Audio pending
+474,L395,Lesson – Consolidation,C1,C1-U20,Consolidation: Articles in Abstract Reference,60,Includes embedded listening check ULC-C1-U20
+475,L396,Lesson – Consolidation,C1,C1-U21,Consolidation: Prepositions and Register,60,Includes embedded listening check ULC-C1-U21
+476,L397,Lesson – Consolidation,C1,C1-U22,Consolidation: Negation Nuance,60,Includes embedded listening check ULC-C1-U22
+477,L398,Lesson – Consolidation,C1,C1-U23,Consolidation: Phrasal vs Latinate Verbs,60,Includes embedded listening check ULC-C1-U23
+478,L410,Lesson – Review,C1,C1-U23R,Review Checkpoint 7: Patterns and Precision,60,Includes embedded listening check ULC-C1-U23R
+479,L399,Lesson – Review,C1,C1-U24,C1 Final Review,60,Includes embedded listening check ULC-C1-U24
+480,EXIT-C1,Level exit assessment (4 skills),C1,,C1 exit assessment,228,Distinct from the final review; pass rule P07

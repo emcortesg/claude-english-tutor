@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/voice_report.schema.json",
+  "title": "Voice agent report",
+  "description": "Written by the voice page to voice-sessions/<session_id>/report.json when the conversation ends. Audio is not kept: it is deleted as soon as Gemini writes the pronunciation notes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "session_id",
+    "student_id",
+    "mode",
+    "lesson_id",
+    "started_at",
+    "ended_at",
+    "end_reason",
+    "transcript",
+    "pronunciation_notes",
+    "objectives_met",
+    "learner_turns",
+    "duration_s",
+    "audio_deleted_at"
+  ],
+  "properties": {
+    "contract": {
+      "const": "voice_report/1"
+    },
+    "session_id": {
+      "$ref": "#/$defs/sessionId"
+    },
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "mode": {
+      "enum": [
+        "practice",
+        "exam"
+      ]
+    },
+    "channel": {
+      "enum": [
+        "voice",
+        "text"
+      ],
+      "description": "text = chat conversation (no voice page or no consent); no pronunciation notes"
+    },
+    "lesson_id": {
+      "$ref": "#/$defs/lessonId"
+    },
+    "started_at": {
+      "$ref": "#/$defs/datetime"
+    },
+    "ended_at": {
+      "$ref": "#/$defs/datetime"
+    },
+    "end_reason": {
+      "enum": [
+        "objectives_met",
+        "turns_completed",
+        "time_limit",
+        "learner_left",
+        "technical_error",
+        "quota_exceeded"
+      ]
+    },
+    "duration_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "audio_deleted_at": {
+      "$ref": "#/$defs/datetime",
+      "description": "When the page deleted the audio after writing the notes (practice and exam)"
+    },
+    "transcript": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "n",
+          "speaker",
+          "text",
+          "start_s",
+          "end_s"
+        ],
+        "properties": {
+          "n": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "speaker": {
+            "enum": [
+              "learner",
+              "agent"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "start_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end_s": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "pronunciation_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "turn",
+          "focus_feature",
+          "achieved",
+          "observation",
+          "affects_intelligibility"
+        ],
+        "properties": {
+          "turn": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "focus_feature": {
+            "type": "string"
+          },
+          "achieved": {
+            "type": "boolean"
+          },
+          "observation": {
+            "type": "string"
+          },
+          "affects_intelligibility": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Written by Gemini from the audio; descriptive, no score"
+    },
+    "target_grammar_uses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "turn",
+          "form",
+          "accurate"
+        ],
+        "properties": {
+          "turn": {
+            "type": "integer"
+          },
+          "form": {
+            "type": "string"
+          },
+          "accurate": {
+            "type": "boolean"
+          },
+          "correction_given": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "priority_vocabulary_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "turn",
+          "learner_said",
+          "issue"
+        ],
+        "properties": {
+          "turn": {
+            "type": "integer"
+          },
+          "learner_said": {
+            "type": "string"
+          },
+          "issue": {
+            "type": "string"
+          },
+          "section": {
+            "$ref": "#/$defs/section"
+          },
+          "recast": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "objectives_met": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "objective",
+          "met"
+        ],
+        "properties": {
+          "objective": {
+            "type": "string"
+          },
+          "met": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "learner_turns": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

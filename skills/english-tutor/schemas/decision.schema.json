@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/decision.schema.json",
+  "title": "Engine decision",
+  "description": "Result returned by engine.py to the tutor after applying P01–P03 (and P05, P06, P09, P10).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "student_id",
+    "event_id",
+    "event_type",
+    "attempt",
+    "global_pct",
+    "dimension_results",
+    "decision",
+    "attempts_left"
+  ],
+  "properties": {
+    "contract": {
+      "const": "decision/1"
+    },
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "event_id": {
+      "$ref": "#/$defs/eventId"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "global_pct": {
+      "$ref": "#/$defs/pct"
+    },
+    "dimension_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension",
+          "score_pct",
+          "passed"
+        ],
+        "properties": {
+          "dimension": {
+            "$ref": "#/$defs/dimension"
+          },
+          "score_pct": {
+            "$ref": "#/$defs/pct"
+          },
+          "passed": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "cycle": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "decision": {
+      "enum": [
+        "passed",
+        "retest_pending",
+        "repeat_content",
+        "placed",
+        "diagnosed"
+      ]
+    },
+    "retest_dimensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dimension"
+      },
+      "description": "Dimensions to reassess in the retest"
+    },
+    "failed_dimensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "flagged_sections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/section"
+      }
+    },
+    "attempts_left": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "repeat_lessons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lessonId"
+      },
+      "description": "Only with decision = repeat_content"
+    },
+    "listening_session": {
+      "type": "boolean",
+      "description": "With repeat_content on a listening check: listening session with the same recordings and new questions (P10)"
+    },
+    "next_event": {
+      "$ref": "#/$defs/eventId"
+    },
+    "next_lesson": {
+      "$ref": "#/$defs/lessonId"
+    },
+    "start_lesson": {
+      "$ref": "#/$defs/lessonId"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

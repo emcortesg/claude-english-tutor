@@ -1,0 +1,12 @@
+{
+  "student_id": "student-0001",
+  "by_section": {
+    "4.1": {
+      "count": 2,
+      "last_seen": "2026-10-22",
+      "examples": [
+        "Is Ana. → She is Ana."
+      ]
+    }
+  }
+}

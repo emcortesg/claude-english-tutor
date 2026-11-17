@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://curso-ingles/contracts/progress.schema.json",
+  "title": "progress.json",
+  "description": "Learner position in the course. Written by engine.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "current_lesson",
+    "updated_at",
+    "lessons_passed",
+    "lessons_credited",
+    "checks_passed",
+    "exits_passed"
+  ],
+  "properties": {
+    "student_id": {
+      "$ref": "#/$defs/studentId"
+    },
+    "current_lesson": {
+      "$ref": "#/$defs/lessonId"
+    },
+    "current_event": {
+      "$ref": "#/$defs/eventId"
+    },
+    "updated_at": {
+      "$ref": "#/$defs/datetime"
+    },
+    "lessons_passed": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lessonId"
+      },
+      "uniqueItems": true
+    },
+    "lessons_credited": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lessonId"
+      },
+      "uniqueItems": true,
+      "description": "Credited by placement (P17)"
+    },
+    "checks_passed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "checks_credited": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "exits_passed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EXIT-[A-C][12]$"
+      },
+      "uniqueItems": true
+    },
+    "exits_credited": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EXIT-[A-C][12]$"
+      },
+      "uniqueItems": true
+    },
+    "pending": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/eventId"
+        },
+        "event_type": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "retest_pending",
+            "repeat_content",
+            "reinforcement",
+            "repeated",
+            "diagnosed"
+          ]
+        },
+        "retest_dimensions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dimension"
+          }
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dimension"
+          }
+        },
+        "repeat_lessons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/lessonId"
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/section"
+          }
+        }
+      }
+    },
+    "replacements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "from",
+          "to",
+          "accepted"
+        ],
+        "properties": {
+          "date": {
+            "$ref": "#/$defs/date"
+          },
+          "from": {
+            "$ref": "#/$defs/lessonId"
+          },
+          "to": {
+            "$ref": "#/$defs/lessonId"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "state_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Engine write counter; all files written by the same command carry the same value"
+    }
+  },
+  "$defs": {
+    "lessonId": {
+      "type": "string",
+      "pattern": "^L\\d{3}$"
+    },
+    "level": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1"
+      ]
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^\\d\\.\\d+a?$"
+    },
+    "studentId": {
+      "type": "string",
+      "pattern": "^student-\\d{4}$"
+    },
+    "sessionId": {
+      "type": "string",
+      "pattern": "^S\\d{4,}$"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Lesson ID (lesson assessment), Check ID (ULC-…), exit ID (EXIT-…), or PLACEMENT",
+      "pattern": "^(L\\d{3}|ULC-[A-C][12]-U\\d{2}R?|EXIT-[A-C][12]|PLACEMENT)$"
+    },
+    "dimension": {
+      "enum": [
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Grammar",
+        "Vocabulary"
+      ]
+    },
+    "band": {
+      "enum": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "resourceRef": {
+      "type": "object",
+      "required": [
+        "resource_id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "audio",
+            "prompt"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

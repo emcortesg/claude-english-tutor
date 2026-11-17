@@ -1,0 +1,23 @@
+{
+  "student_id": "student-0001",
+  "resources": [
+    {
+      "resource_id": "TXT-L001-R-office",
+      "kind": "text",
+      "uses": [
+        {
+          "event_id": "L001",
+          "attempt": 1,
+          "date": "2026-10-22T14:40:00-05:00",
+          "item_ids": [
+            "L001-A-R1",
+            "L001-A-R2",
+            "L001-A-R3",
+            "L001-A-R4",
+            "L001-A-R5"
+          ]
+        }
+      ]
+    }
+  ]
+}
